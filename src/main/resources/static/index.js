@@ -1,7 +1,6 @@
 angular.module('app',[]).controller('productController',function ($scope, $http) {
     const contextPath = 'http://localhost:8080/app';
 
-    console.log(123);
 
     $scope.loadProducts = function (){
         $http.get(contextPath + '/product')
@@ -11,8 +10,10 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
     };
 
     $scope.deleteProduct = function (productId){
-        $http.get(contextPath+'/product/delete/' + productId)
+        $http.get(contextPath+'/delete/' + productId)
             .then(function (response){
+                console.log(123);
+                console.log(productId);
                 $scope.loadProducts();
             });
     }

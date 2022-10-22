@@ -51,14 +51,15 @@ public class ProductController {
 //    }
 
     @GetMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable Long id) {
-        Optional<Product> productById = productService.findProductById(id);
-        if (productById.isPresent()){
-        productService.deleteProductById(id);
-        return "redirect:/product";}
-        else {
-            throw new ResourceNotFoundException("Product could not be delete. Product not found. id=" + id);
-        }
+    public void deleteProduct(@PathVariable Long id) {
+//        Optional<Product> productById = productService.findProductById(id);
+//        if (productById.isPresent()) {
+            productService.deleteProductById(id);
+//        return "redirect:/product";}
+//        else {
+//            throw new ResourceNotFoundException("Product could not be delete. Product not found. id=" + id);
+//        }
+//        }
     }
 
 
