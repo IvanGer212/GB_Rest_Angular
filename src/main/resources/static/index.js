@@ -32,13 +32,10 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
         });
     }
 
-    $scope.createProduct = function (title, cost) {
-        console.log($scope.newProduct);
-        $http({
-            url: contextPath + "/createProduct",
-            method: 'POST',
-            body: $scope.newProduct
-        }).then(function (response){
+    $scope.createProduct = function (title, price) {
+        console.log($scope.Product);
+        $http.post(contextPath + "/createProduct", $scope.Product)
+            .then(function (response){
                 $scope.loadProducts();
             });
 
