@@ -36,13 +36,19 @@
                             <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Удалить</button>
                         </td>
                     </tr>
-
                 </tbody>
             </table>
 
         </div>
         </div>
-    <div class="col"></div>
+    <div class="col">
+        <h5>Фильтр по стоимости</h5>
+        <form action="#" method="get">
+            <p>min: <input type="text" /></p>
+            <p>max: <input type="text" /></p>
+            <p><input type="submit" value="Фильтровать" /></p>
+        </form>
+    </div>
 </div>
 
 <!--            <h5>Фильтр по стоимости</h5>-->
