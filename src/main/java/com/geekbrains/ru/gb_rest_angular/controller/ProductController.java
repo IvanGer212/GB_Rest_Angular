@@ -29,13 +29,11 @@ public class ProductController {
     }
 
 
-//    @GetMapping("/product-between")
-//    public String getProductBetweenCost(@RequestParam (defaultValue = "0") int min, @RequestParam(defaultValue = "1000000") int max, Model model){
-//        List<Product> allByCostBetween = productService.findAllByCostBetween(min, max);
-//        model.addAttribute("products", allByCostBetween);
-//        model.addAttribute("Limits", new Limits());
-//        return "products";
-//    }
+    @GetMapping("/product-between")
+    public List<Product> getProductBetweenCost(@RequestParam (defaultValue = "0") int min, @RequestParam(defaultValue = "1000000") int max){
+        List<Product> allByCostBetween = productService.findAllByCostBetween(min, max);
+        return allByCostBetween;
+    }
 
     @GetMapping("/product/{id}")
     @ResponseBody
@@ -43,8 +41,8 @@ public class ProductController {
         return productService.findProductById(id).orElseThrow(()-> new ResourceNotFoundException("Product not found! id= "+id));
     }
 
-//    @GetMapping("/create-product")
 //    public String createAddProductPage(Model model){
+//    @GetMapping("/create-product")
 //        model.addAttribute("newProduct", new Product());
 //
 //        return "create-product";
