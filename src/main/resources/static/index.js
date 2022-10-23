@@ -17,5 +17,32 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
                 $scope.loadProducts();
             });
     }
+
+    $scope.filterByCost = function (min, max){
+        console.log($scope.Limits);
+        $http({
+            url: contextPath + "/product-between",
+            method: 'GET',
+            params: {
+                min: $scope.Limits.min,
+                max: $scope.Limits.max
+            }
+        }).then(function (response){
+            $scope.ProductList = response.data;
+        });
+    }
+
+    $scope.createProduct = function (title, cost) {
+        console.log($scope.newProduct);
+        $http({
+            url: contextPath + "/createProduct",
+            method: 'POST',
+            body: $scope.newProduct
+        }).then(function (response){
+                $scope.loadProducts();
+            });
+
+    }
+
     $scope.loadProducts();
 })

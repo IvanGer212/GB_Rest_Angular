@@ -61,30 +61,30 @@ public class ProductController {
     }
 
 
-//    @PostMapping
-//    public String addProduct(@ModelAttribute("newProduct") Product newProduct, Model model) {
+    @PostMapping("/createProduct")
+    public Product addProduct(@RequestBody Product newProduct) {
 //        Optional<ErrorResponse> validationError = validationNewProduct(newProduct);
 //        if(validationError.isPresent()){
 //            model.addAttribute("error", validationError.get());
-//            return "exception-page";
+        //    return "exception-page";
 //        }
-//        productService.addNewProduct(newProduct);
-//        return "redirect:/product";
-//    }
-//
-//
-//    private Optional<ErrorResponse> validationNewProduct (Product newProduct){
-//        List<String> details = new ArrayList<>();
-//        if (newProduct.getTitle().isEmpty()){
-//            details.add("Product name could not be empty!");
-//        }
-//        if (newProduct.getCost() <= 0){
-//            details.add("Price could not be less or equal 0!");
-//        }
-//        if (details.size()!=0){
-//            return Optional.of(new ErrorResponse("Uncorrect Product!",details));
-//        }
-//        return Optional.empty();
-//    }
+        return productService.addNewProduct(newProduct);
+        //return "redirect:/product";
+    }
+
+
+    private Optional<ErrorResponse> validationNewProduct (Product newProduct){
+        List<String> details = new ArrayList<>();
+        if (newProduct.getTitle().isEmpty()){
+            details.add("Product name could not be empty!");
+        }
+        if (newProduct.getCost() <= 0){
+            details.add("Price could not be less or equal 0!");
+        }
+        if (details.size()!=0){
+            return Optional.of(new ErrorResponse("Uncorrect Product!",details));
+        }
+        return Optional.empty();
+    }
 }
 
