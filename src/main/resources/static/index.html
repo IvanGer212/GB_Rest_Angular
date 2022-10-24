@@ -49,18 +49,25 @@
                     <p></p>
                     <button type="submit" class="btn btn-primary">Добавить продукт</button>
                 </form>
+                    <p></p>
+                    <h6 style="color: red" ng-model="msg">{{msg}}</h6>
                 </div>
                 <div class="col"></div>
             </div>
         </div>
         </div>
     <div class="col">
+        <div class="row">
+            <div class="col">
         <h5>Фильтр по стоимости</h5>
         <form novalidate ng-submit="filterByCost()">
             <p>min: <input class="form-control" type="text" ng-model="Limits.min"/></p>
             <p>max: <input class="form-control" type="text" ng-model="Limits.max"/></p>
             <p><button type="submit" class="btn btn-primary">Фильтровать</button></p>
         </form>
+            </div>
+            <div class="col"></div>
+       </div>
     </div>
 </div>
 

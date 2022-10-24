@@ -12,8 +12,6 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
     $scope.deleteProduct = function (productId){
         $http.get(contextPath+'/delete/' + productId)
             .then(function (response){
-                console.log(123);
-                console.log(productId);
                 $scope.loadProducts();
             });
     }
@@ -32,14 +30,41 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
         });
     }
 
-    $scope.createProduct = function (title, price) {
-        console.log($scope.Product);
-        $http.post(contextPath + "/createProduct", $scope.Product)
-            .then(function (response){
-                $scope.loadProducts();
-            });
+    // $scope.createProduct = function (title, price) {
+    //     console.log($scope.Product);
+    //     $http.post(contextPath + "/createProduct", $scope.Product)
+    //         .then(function (response){
+    //             console.log(response.data);
+    //          //   $scope.msg = response.data;
+    //             $scope.loadProducts();
+    //         });
+    //
+    // }
 
+    $scope.createProduct = function (title, price){
+        $http({
+            url: contextPath + "/createProduct",
+            method: 'POST',
+            data: $scope.Product
+        }).then(function (response){
+            console.log(response.data.title);
+                if(response.data.cost <= 0){
+                    $scope.msg = "Price could not be less or equal 0!";
+                }
+                else if (response.data.title){
+                    $scope.msg = "";
+                }
+                else {
+                    $scope.msg = "Product name could not be empty!";
+                }
+
+            $scope.loadProducts();
+        });
     }
+
+
+
+
 
     $scope.loadProducts();
 })

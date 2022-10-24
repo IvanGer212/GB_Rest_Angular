@@ -63,11 +63,11 @@ public class ProductController {
 
     @PostMapping("/createProduct")
     public Product addProduct(@RequestBody Product newProduct) {
-//        Optional<ErrorResponse> validationError = validationNewProduct(newProduct);
-//        if(validationError.isPresent()){
-//            model.addAttribute("error", validationError.get());
-        //    return "exception-page";
-//        }
+        Optional<ErrorResponse> validationError = validationNewProduct(newProduct);
+        if(validationError.isPresent()){
+
+          return newProduct;
+        }
         return productService.addNewProduct(newProduct);
         //return "redirect:/product";
     }
