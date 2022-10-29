@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
-<html ng-app="app" xmlns:ng-click="http://www.w3.org/1999/xhtml" xmlns:ng-submit="http://www.w3.org/1999/xhtml">
+<html ng-app="app" xmlns:ng-click="http://www.w3.org/1999/xhtml" xmlns:ng-submit="http://www.w3.org/1999/xhtml"
+      xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
@@ -43,9 +44,9 @@
                 <div class="col"></div>
                 <div class="col">
                 <form novalidate ng-submit="createProduct()">
-                     <input class="form-control" type="text" placeholder="Название" ng-model="Product.title">
+                     <input class="form-control" type="text"  required value="Product 30" ng-model="Product.title">
                     <p></p>
-                    <input class="form-control" type="number" placeholder="Цена" ng-model="Product.cost">
+                    <input class="form-control" type="number" required value="100" ng-model="Product.cost">
                     <p></p>
                     <button type="submit" class="btn btn-primary">Добавить продукт</button>
                 </form>
@@ -59,12 +60,18 @@
     <div class="col">
         <div class="row">
             <div class="col">
-        <h5>Фильтр по стоимости</h5>
-        <form novalidate ng-submit="filterByCost()">
-            <p>min: <input class="form-control" type="text" ng-model="Limits.min"/></p>
-            <p>max: <input class="form-control" type="text" ng-model="Limits.max"/></p>
-            <p><button type="submit" class="btn btn-primary">Фильтровать</button></p>
-        </form>
+        <h5>Фильтр</h5>
+            <form novalidate ng-submit="loadProducts()">
+                <p> min: <input class="form-control" type="text" id="filterMinPrice" ng-model="filter.min"></p>
+                <p> max: <input class="form-control" type="text" id="filterMaxPrice" ng-model="filter.max"></p>
+                <p> name: <input class="form-control" type="text" id="filterTitle" ng-model="filter.title"></p>
+                <p><button class="btn btn-primary" type="submit">Фильтровать</button> </p>
+            </form>
+<!--        <form novalidate ng-submit="filterByCost()">-->
+<!--            <p>min: <input class="form-control" type="text" ng-model="Limits.min"/></p>-->
+<!--            <p>max: <input class="form-control" type="text" ng-model="Limits.max"/></p>-->
+<!--            <p><button type="submit" class="btn btn-primary">Фильтровать</button></p>-->
+<!--        </form>-->
             </div>
             <div class="col"></div>
        </div>

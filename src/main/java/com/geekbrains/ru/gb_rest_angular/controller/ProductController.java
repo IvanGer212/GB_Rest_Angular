@@ -7,6 +7,7 @@ import com.geekbrains.ru.gb_rest_angular.exception.ErrorResponse;
 import com.geekbrains.ru.gb_rest_angular.exception.ResourceNotFoundException;
 import com.geekbrains.ru.gb_rest_angular.service.ProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +22,14 @@ import java.util.Optional;
 public class ProductController {
     private final ProductService productService;
     @GetMapping("/product")
-    public List<Product> getProducts(){
-        List<Product> products = productService.getAllProduct();
+    public Page<Product> getProducts(@RequestParam (name="p", defaultValue = "1") Integer page,
+                                     @RequestParam (name = "min_price", required = false) Integer minPrice,
+                                     @RequestParam (name = "max_price", required = false) Integer maxPrice,
+                                     @RequestParam (name = "title", required = false) String title) {
+        if (page<1){
+            page = 1;
+        }
+        Page<Product> products = productService.find(minPrice,maxPrice,title,page);
 //        model.addAttribute("products",products);
 //        model.addAttribute("Limits", new Limits());
         return products;

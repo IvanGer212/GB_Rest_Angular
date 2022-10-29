@@ -3,7 +3,11 @@ package com.geekbrains.ru.gb_rest_angular.service.impl;
 
 import com.geekbrains.ru.gb_rest_angular.domain.Product;
 import com.geekbrains.ru.gb_rest_angular.repository.ProductRepository;
+import com.geekbrains.ru.gb_rest_angular.repository.specifications.ProductSpecification;
 import com.geekbrains.ru.gb_rest_angular.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +22,20 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
+    @Override
+    public Page<Product> find (Integer minPrice, Integer maxPrice, String title, Integer page){
+        Specification<Product> spec = Specification.where(null);
+        if (minPrice != null) {
+            spec = spec.and(ProductSpecification.priceGreaterThanOrEqualsThan(minPrice));
+        }
+        if (maxPrice != null) {
+            spec = spec.and(ProductSpecification.priceLessThanOrEqualsThan(maxPrice));
+        }
+        if (title != null) {
+            spec = spec.and(ProductSpecification.titleLike(title));
+        }
+        return productRepository.findAll(spec, PageRequest.of(page-1, 5));
+    }
     @Override
     public List<Product> getAllProduct() {
         return productRepository.findAll();
@@ -50,4 +68,5 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAllByCostBetween(int min, int max) {
         return productRepository.findAllByCostBetween(min, max);
     }
+
 }
