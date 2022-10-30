@@ -1,11 +1,11 @@
 angular.module('app',[]).controller('productController',function ($scope, $http) {
-    const contextPath = 'http://localhost:8080/app';
+    const contextPath = 'http://localhost:8080/app/api/v1';
 
 
     $scope.loadProducts = function(pageIndex = 1){
         console.log(123);
         $http({
-            url: contextPath + '/product',
+            url: contextPath + "/products",
             method: 'GET',
             params: {
                 title: $scope.filter ? $scope.filter.title: null,
@@ -27,30 +27,30 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
     // };
 
     $scope.deleteProduct = function (productId){
-        $http.get(contextPath+'/delete/' + productId)
+        $http.delete(contextPath + "/products/" + productId)
             .then(function (response){
                 $scope.loadProducts();
             });
     }
 
-    $scope.filterByCost = function (min, max){
-        console.log($scope.Limits);
-        $http({
-            url: contextPath + "/product-between",
-            method: 'GET',
-            params: {
-                min: $scope.Limits.min,
-                max: $scope.Limits.max
-            }
-        }).then(function (response){
-            $scope.ProductList = response.data;
-        });
-    }
+    // $scope.filterByCost = function (min, max){
+    //     console.log($scope.Limits);
+    //     $http({
+    //         url: contextPath + "/product-between",
+    //         method: 'GET',
+    //         params: {
+    //             min: $scope.Limits.min,
+    //             max: $scope.Limits.max
+    //         }
+    //     }).then(function (response){
+    //         $scope.ProductList = response.data;
+    //     });
+    // }
 
 
     $scope.createProduct = function (title, price){
         $http({
-            url: contextPath + "/createProduct",
+            url: contextPath + "/products",
             method: 'POST',
             data: $scope.Product
         }).then(function (response){

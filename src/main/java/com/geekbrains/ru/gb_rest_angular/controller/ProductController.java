@@ -1,74 +1,48 @@
 package com.geekbrains.ru.gb_rest_angular.controller;
 
-
-import com.geekbrains.ru.gb_rest_angular.domain.Limits;
 import com.geekbrains.ru.gb_rest_angular.domain.Product;
+import com.geekbrains.ru.gb_rest_angular.dto.ProductDto;
 import com.geekbrains.ru.gb_rest_angular.exception.ErrorResponse;
 import com.geekbrains.ru.gb_rest_angular.exception.ResourceNotFoundException;
 import com.geekbrains.ru.gb_rest_angular.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/app/api/v1/products")
 @AllArgsConstructor
 public class ProductController {
     private final ProductService productService;
-    @GetMapping("/product")
-    public Page<Product> getProducts(@RequestParam (name="p", defaultValue = "1") Integer page,
-                                     @RequestParam (name = "min_price", required = false) Integer minPrice,
-                                     @RequestParam (name = "max_price", required = false) Integer maxPrice,
-                                     @RequestParam (name = "title", required = false) String title) {
+    @GetMapping
+    public Page<ProductDto> getProducts(@RequestParam (name="p", defaultValue = "1") Integer page,
+                                        @RequestParam (name = "min_price", required = false) Integer minPrice,
+                                        @RequestParam (name = "max_price", required = false) Integer maxPrice,
+                                        @RequestParam (name = "title", required = false) String title) {
         if (page<1){
             page = 1;
         }
-        Page<Product> products = productService.find(minPrice,maxPrice,title,page);
-//        model.addAttribute("products",products);
-//        model.addAttribute("Limits", new Limits());
+        Page<ProductDto> products = productService.find(minPrice,maxPrice,title,page).map(p-> new ProductDto(p));
         return products;
     }
 
 
-    @GetMapping("/product-between")
-    public List<Product> getProductBetweenCost(@RequestParam (defaultValue = "0") int min, @RequestParam(defaultValue = "1000000") int max){
-        List<Product> allByCostBetween = productService.findAllByCostBetween(min, max);
-        return allByCostBetween;
-    }
-
-    @GetMapping("/product/{id}")
+    @GetMapping("/{id}")
     @ResponseBody
     public Product getProductById(@PathVariable Long id){
         return productService.findProductById(id).orElseThrow(()-> new ResourceNotFoundException("Product not found! id= "+id));
     }
 
-//    public String createAddProductPage(Model model){
-//    @GetMapping("/create-product")
-//        model.addAttribute("newProduct", new Product());
-//
-//        return "create-product";
-//    }
-
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable Long id) {
-//        Optional<Product> productById = productService.findProductById(id);
-//        if (productById.isPresent()) {
             productService.deleteProductById(id);
-//        return "redirect:/product";}
-//        else {
-//            throw new ResourceNotFoundException("Product could not be delete. Product not found. id=" + id);
-//        }
-//        }
     }
 
 
-    @PostMapping("/createProduct")
+    @PostMapping
     public Product addProduct(@RequestBody Product newProduct) {
         Optional<ErrorResponse> validationError = validationNewProduct(newProduct);
         if(validationError.isPresent()){
