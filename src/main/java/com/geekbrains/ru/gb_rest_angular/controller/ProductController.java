@@ -43,18 +43,18 @@ public class ProductController {
 
 
     @PostMapping
-    public Product addProduct(@RequestBody Product newProduct) {
-        Optional<ErrorResponse> validationError = validationNewProduct(newProduct);
+    public Product addProduct(@RequestBody ProductDto newProductDto) {
+        Optional<ErrorResponse> validationError = validationNewProduct(newProductDto);
+        Product product = new Product();
         if(validationError.isPresent()){
-
-          return newProduct;
+          return product;
         }
-        return productService.addNewProduct(newProduct);
+        return productService.addNewProduct(newProductDto);
         //return "redirect:/product";
     }
 
 
-    private Optional<ErrorResponse> validationNewProduct (Product newProduct){
+    private Optional<ErrorResponse> validationNewProduct (ProductDto newProduct){
         List<String> details = new ArrayList<>();
         if (newProduct.getTitle().isEmpty()){
             details.add("Product name could not be empty!");

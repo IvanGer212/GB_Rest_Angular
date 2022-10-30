@@ -3,6 +3,7 @@ package com.geekbrains.ru.gb_rest_angular.service;
 
 
 import com.geekbrains.ru.gb_rest_angular.domain.Product;
+import com.geekbrains.ru.gb_rest_angular.dto.ProductDto;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface ProductService {
 
     Optional<Product> findProductById(Long id);
 
-    Product  addNewProduct(Product product);
+    Product  addNewProduct(ProductDto productDto);
 
     void deleteProductById(Long id);
 

@@ -2,6 +2,7 @@ package com.geekbrains.ru.gb_rest_angular.service.impl;
 
 
 import com.geekbrains.ru.gb_rest_angular.domain.Product;
+import com.geekbrains.ru.gb_rest_angular.dto.ProductDto;
 import com.geekbrains.ru.gb_rest_angular.repository.ProductRepository;
 import com.geekbrains.ru.gb_rest_angular.repository.specifications.ProductSpecification;
 import com.geekbrains.ru.gb_rest_angular.service.ProductService;
@@ -47,15 +48,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product addNewProduct(Product product) {
-        Optional<Product> firstByTitle = productRepository.findFirstByTitle(product.getTitle());
+    public Product addNewProduct(ProductDto productDto) {
+        Product newProduct = new Product();
+        newProduct.setTitle(productDto.getTitle());
+        newProduct.setCost(productDto.getCost());
+        Optional<Product> firstByTitle = productRepository.findFirstByTitle(newProduct.getTitle());
         if (firstByTitle.isPresent()) {
             Product product1 = firstByTitle.get();
-            product1.setTitle(product.getTitle());
-            product1.setCost(product.getCost());
+            product1.setTitle(newProduct.getTitle());
+            product1.setCost(newProduct.getCost());
             return productRepository.save(product1);
         } else {
-            return productRepository.save(product);
+            return productRepository.save(newProduct);
         }
     }
 
