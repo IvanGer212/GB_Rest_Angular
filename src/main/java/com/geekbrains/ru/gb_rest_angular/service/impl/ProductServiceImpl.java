@@ -43,13 +43,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> findProductById(Long id) {
-        return productRepository.findById(id);
+    public Optional<ProductDto> findProductById(Long id) {
+        ProductDto productDto;
+        Product productById = productRepository.findById(id).get();
+        productDto = new ProductDto(productById);
+        return Optional.of(productDto);
     }
 
     @Override
-    public Product addNewProduct(ProductDto productDto) {
+    public ProductDto addNewProduct(ProductDto productDto) {
         Product newProduct = new Product();
+        Product saveProduct;
         newProduct.setTitle(productDto.getTitle());
         newProduct.setCost(productDto.getCost());
         Optional<Product> firstByTitle = productRepository.findFirstByTitle(newProduct.getTitle());
@@ -57,10 +61,13 @@ public class ProductServiceImpl implements ProductService {
             Product product1 = firstByTitle.get();
             product1.setTitle(newProduct.getTitle());
             product1.setCost(newProduct.getCost());
-            return productRepository.save(product1);
+            saveProduct = productRepository.save(product1);
         } else {
-            return productRepository.save(newProduct);
+            saveProduct = productRepository.save(newProduct);
+
         }
+
+        return new ProductDto(saveProduct);
     }
 
     @Override
