@@ -33,7 +33,7 @@ public class ProductController {
     @GetMapping("/{id}")
     @ResponseBody
     public ProductDto getProductById(@PathVariable Long id){
-        return productService.findProductById(id).orElseThrow(()-> new ResourceNotFoundException("Product not found! id= "+id));
+        return productService.findProductById(id).map(p -> new ProductDto(p)).orElseThrow(()-> new ResourceNotFoundException("Product not found! id= "+id));
     }
 
     @DeleteMapping("/{id}")
@@ -44,11 +44,15 @@ public class ProductController {
 
     @PostMapping
     public ProductDto addProduct(@RequestBody ProductDto newProductDto) {
+        Product newProduct = new Product();
         Optional<ErrorResponse> validationError = validationNewProduct(newProductDto);
         if(validationError.isPresent()){
           return newProductDto;
         }
-        return productService.addNewProduct(newProductDto);
+        newProduct.setTitle(newProductDto.getTitle());
+        newProduct.setCost(newProductDto.getCost());
+        Product saveProduct = productService.addNewProduct(newProduct);
+        return new ProductDto(saveProduct);
     }
 
 

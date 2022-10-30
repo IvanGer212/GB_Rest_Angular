@@ -43,31 +43,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<ProductDto> findProductById(Long id) {
-        ProductDto productDto;
-        Product productById = productRepository.findById(id).get();
-        productDto = new ProductDto(productById);
-        return Optional.of(productDto);
+    public Optional<Product> findProductById(Long id) {
+        return productRepository.findById(id);
     }
 
     @Override
-    public ProductDto addNewProduct(ProductDto productDto) {
-        Product newProduct = new Product();
-        Product saveProduct;
-        newProduct.setTitle(productDto.getTitle());
-        newProduct.setCost(productDto.getCost());
-        Optional<Product> firstByTitle = productRepository.findFirstByTitle(newProduct.getTitle());
+    public Product addNewProduct(Product product) {
+        Optional<Product> firstByTitle = productRepository.findFirstByTitle(product.getTitle());
         if (firstByTitle.isPresent()) {
             Product product1 = firstByTitle.get();
-            product1.setTitle(newProduct.getTitle());
-            product1.setCost(newProduct.getCost());
-            saveProduct = productRepository.save(product1);
+            product1.setTitle(product.getTitle());
+            product1.setCost(product.getCost());
+            return productRepository.save(product1);
         } else {
-            saveProduct = productRepository.save(newProduct);
+            return productRepository.save(product);
 
         }
-
-        return new ProductDto(saveProduct);
     }
 
     @Override

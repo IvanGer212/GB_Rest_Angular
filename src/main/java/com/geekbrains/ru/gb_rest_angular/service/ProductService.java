@@ -14,9 +14,9 @@ public interface ProductService {
     Page<Product> find (Integer minPrice, Integer maxPrice, String title, Integer page);
     List<Product> getAllProduct();
 
-    Optional<ProductDto> findProductById(Long id);
+    Optional<Product> findProductById(Long id);
 
-    ProductDto  addNewProduct(ProductDto productDto);
+    Product  addNewProduct(Product product);
 
     void deleteProductById(Long id);
 
