@@ -3,6 +3,7 @@ package com.geekbrains.ru.gb_rest_angular.service.impl;
 
 import com.geekbrains.ru.gb_rest_angular.domain.Product;
 import com.geekbrains.ru.gb_rest_angular.dto.ProductDto;
+import com.geekbrains.ru.gb_rest_angular.exception.ResourceNotFoundException;
 import com.geekbrains.ru.gb_rest_angular.repository.ProductRepository;
 import com.geekbrains.ru.gb_rest_angular.repository.specifications.ProductSpecification;
 import com.geekbrains.ru.gb_rest_angular.service.ProductService;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,6 +71,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findAllByCostBetween(int min, int max) {
         return productRepository.findAllByCostBetween(min, max);
+    }
+
+    @Override
+    @Transactional
+    public Product update(ProductDto productDto){
+        Product product = productRepository.findById(productDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Невозможно обновить продукт, не найден в базе, id = "+productDto.getId()));
+        product.setCost(productDto.getCost());
+        product.setTitle(productDto.getTitle());
+        return product;
     }
 
 }

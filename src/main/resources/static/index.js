@@ -3,7 +3,6 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
 
 
     $scope.loadProducts = function(pageIndex = 1){
-        console.log(123);
         $http({
             url: contextPath + "/products",
             method: 'GET',
@@ -13,7 +12,6 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
                 max_price: $scope.filter ? $scope.filter.max: null
             }
         }).then(function(response){
-            console.log(456);
             $scope.ProductList = response.data.content;
         })
     }
@@ -54,7 +52,6 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
             method: 'POST',
             data: $scope.Product
         }).then(function (response){
-            console.log(response.data.title);
                 if(response.data.cost <= 0){
                     $scope.msg = "Price could not be less or equal 0!";
                 }
