@@ -17,13 +17,6 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
     }
 
 
-    // $scope.loadProducts = function (){
-    //     $http.get(contextPath + '/product')
-    //         .then(function (response){
-    //             $scope.ProductList = response.data;
-    //         });
-    // };
-
     $scope.deleteProduct = function (productId){
         $http.delete(contextPath + "/products/" + productId)
             .then(function (response){
@@ -67,9 +60,30 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
         });
     }
 
+    $scope.loadProductsOnBin = function (){
+        $http.get(contextPath + "/products/bin").then(function (response){
+            $scope.ProductBinList = response.data;
+        })
+    }
+
+    $scope.addProductOnBin = function (product){
+         $http({
+            url: contextPath + "/products/bin",
+            method: 'POST',
+            data: product
+
+        }).then(function (response){
+            $scope.loadProductsOnBin();
+        })
+    };
 
 
+    $scope.deleteProductOnBin = function (productName){
+        $http.delete(contextPath + "/products/bin/"+productName).then(function (response){
+            $scope.loadProductsOnBin();
+        });
+    }
 
-
+    $scope.loadProductsOnBin();
     $scope.loadProducts();
 })

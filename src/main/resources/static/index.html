@@ -35,6 +35,7 @@
                         <td>{{p.cost}}</td>
                         <td>
                             <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Удалить</button>
+                            <button class="btn btn-primary" ng-click="addProductOnBin(p)">В корзину</button>
                         </td>
                     </tr>
                 </tbody>
@@ -43,10 +44,11 @@
             <div class="row">
                 <div class="col"></div>
                 <div class="col">
+                    <h3>Добавить продукт</h3>
                 <form novalidate ng-submit="createProduct()">
-                     <input class="form-control" type="text"  required value="Product 30" ng-model="Product.title">
+                     <input class="form-control" type="text"  placeholder="Название" required ng-model="Product.title">
                     <p></p>
-                    <input class="form-control" type="number" required value="100" ng-model="Product.cost">
+                    <input class="form-control" type="number" placeholder="Цена" required ng-model="Product.cost">
                     <p></p>
                     <button type="submit" class="btn btn-primary">Добавить продукт</button>
                 </form>
@@ -54,6 +56,29 @@
                     <h6 style="color: red" ng-model="msg">{{msg}}</h6>
                 </div>
                 <div class="col"></div>
+                <p></p>
+                <h3>Корзина</h3>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Название</th>
+                        <th scope="col">Цена</th>
+                        <th scope="col">Количество</th>
+                        <th scope="col">Удалить</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="prB in ProductBinList">
+                        <td>{{prB.title}}</td>
+                        <td>{{prB.price}}</td>
+                        <td>{{prB.quantity}}</td>
+                        <td>
+                            <button class="btn btn-danger" ng-click="deleteProductOnBin(prB.title)">Удалить</button>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
             </div>
         </div>
         </div>
@@ -67,23 +92,11 @@
                 <p> name: <input class="form-control" type="text" id="filterTitle" ng-model="filter.title"></p>
                 <p><button class="btn btn-primary" type="submit">Фильтровать</button> </p>
             </form>
-<!--        <form novalidate ng-submit="filterByCost()">-->
-<!--            <p>min: <input class="form-control" type="text" ng-model="Limits.min"/></p>-->
-<!--            <p>max: <input class="form-control" type="text" ng-model="Limits.max"/></p>-->
-<!--            <p><button type="submit" class="btn btn-primary">Фильтровать</button></p>-->
-<!--        </form>-->
             </div>
             <div class="col"></div>
        </div>
     </div>
 </div>
-
-<!--            <h5>Фильтр по стоимости</h5>-->
-<!--            <form action="#" th:action="@{/product/product-between(min=${'Limits.min'},max=${'Limits.max'})}" th:object="${Limits}" method="get">-->
-<!--                <p>min: <input type="text" th:field="${Limits.min}" /></p>-->
-<!--                <p>max: <input type="text" th:field="${Limits.max}" /></p>-->
-<!--                <p><input type="submit" value="Фильтровать" /></p>-->
-<!--            </form>-->
 
 </body>
 </html>
