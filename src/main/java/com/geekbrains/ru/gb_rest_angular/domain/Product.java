@@ -19,5 +19,5 @@ public class Product {
     @Column(name = "title")
     private String title;
     @Column(name = "price")
-    private int cost;
+    private Integer cost;
 }
