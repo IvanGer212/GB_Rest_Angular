@@ -64,16 +64,30 @@
                         <th scope="col">Название</th>
                         <th scope="col">Цена</th>
                         <th scope="col">Количество</th>
+                        <th scope="col">Стоимость</th>
                         <th scope="col">Удалить</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="prB in ProductBinList">
+                    <tr ng-repeat="prB in ProductBinList.productsForBin">
                         <td>{{prB.title}}</td>
-                        <td>{{prB.price}}</td>
-                        <td>{{prB.quantity}}</td>
+                        <td>{{prB.pricePerProduct}}</td>
+                        <td><button class="btn btn-info" ng-click="changeScore(prB.title,'-')">-</button>
+                            {{prB.quantity}}
+                            <button class="btn btn-info" ng-click="changeScore(prB.title,'+')">+</button>
+                        </td>
+                        <td>{{prB.pricePerProduct + ' * ' + prB.quantity + ' = ' + prB.price}}</td>
                         <td>
                             <button class="btn btn-danger" ng-click="deleteProductOnBin(prB.title)">Удалить</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Итого</td>
+                        <td></td>
+                        <td>{{ProductBinList.totalPrice}} </td>
+                        <td>
+                            <button class="btn btn-danger" ng-click="clearCart()">Очистить корзину</button>
                         </td>
                     </tr>
 

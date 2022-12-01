@@ -10,6 +10,11 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 public class ProductForBin {
     private String title;
-    private Integer price;
+    private Integer pricePerProduct;
     private Integer quantity;
+    private Integer price;
+
+    public void countPrice (){
+        price = pricePerProduct * quantity;
+    }
 }

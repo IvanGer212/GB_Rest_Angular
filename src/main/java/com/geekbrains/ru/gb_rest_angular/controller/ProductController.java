@@ -4,18 +4,15 @@ import com.geekbrains.ru.gb_rest_angular.converter.ProductConverter;
 import com.geekbrains.ru.gb_rest_angular.domain.Product;
 import com.geekbrains.ru.gb_rest_angular.domain.ProductForBin;
 import com.geekbrains.ru.gb_rest_angular.dto.ProductDto;
-import com.geekbrains.ru.gb_rest_angular.exception.ErrorResponse;
 import com.geekbrains.ru.gb_rest_angular.exception.ResourceNotFoundException;
-import com.geekbrains.ru.gb_rest_angular.service.BinCardService;
+import com.geekbrains.ru.gb_rest_angular.service.BinCartService;
 import com.geekbrains.ru.gb_rest_angular.service.ProductService;
 import com.geekbrains.ru.gb_rest_angular.validators.ProductValidator;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/app/api/v1/products")
@@ -25,7 +22,7 @@ public class ProductController {
     private final ProductService productService;
     private final ProductConverter productConverter;
     private final ProductValidator productValidator;
-    private final BinCardService binCardService;
+
 
     @GetMapping
     public Page<ProductDto> getProducts(@RequestParam (name="p", defaultValue = "1") Integer page,
@@ -90,21 +87,6 @@ public class ProductController {
 //        }
 //        return Optional.empty();
 //    }
-
-    @GetMapping ("/bin")
-    public List<ProductForBin> findAllProductFromBin(){
-        return binCardService.findAllProductOnBin();
-    }
-
-    @PostMapping("/bin")
-    public void addProductToBin(@RequestBody ProductDto productDto){
-        binCardService.addProductOnBin(productDto);
-    }
-
-    @DeleteMapping("/bin/{name}")
-    public void deleteProductOnBin(@PathVariable String name){
-        binCardService.deleteProductOnBin(name);
-    }
 
 }
 

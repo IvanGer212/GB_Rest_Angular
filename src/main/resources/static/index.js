@@ -18,6 +18,7 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
 
 
     $scope.deleteProduct = function (productId){
+        console.log('delete');
         $http.delete(contextPath + "/products/" + productId)
             .then(function (response){
                 $scope.loadProducts();
@@ -40,6 +41,7 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
 
 
     $scope.createProduct = function (title, price){
+        console.log('create');
         $http({
             url: contextPath + "/products",
             method: 'POST',
@@ -61,14 +63,14 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
     }
 
     $scope.loadProductsOnBin = function (){
-        $http.get(contextPath + "/products/bin").then(function (response){
+        $http.get(contextPath + "/cart").then(function (response){
             $scope.ProductBinList = response.data;
         })
     }
 
     $scope.addProductOnBin = function (product){
          $http({
-            url: contextPath + "/products/bin",
+            url: contextPath + "/cart/add",
             method: 'POST',
             data: product
 
@@ -79,9 +81,32 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
 
 
     $scope.deleteProductOnBin = function (productName){
-        $http.delete(contextPath + "/products/bin/"+productName).then(function (response){
+        console.log('delete');
+        $http.get(contextPath + "/cart/delete/"+productName).then(function (response){
             $scope.loadProductsOnBin();
         });
+    };
+
+    $scope.clearCart = function (){
+        console.log('clear');
+        $http.get(contextPath + "/cart/clear").then(function (response){
+            $scope.loadProductsOnBin();
+        });
+    };
+
+    $scope.changeScore = function (name, mark) {
+        console.log(name);
+        console.log(mark);
+        $http({
+            url: contextPath + "/cart/change_score",
+            method: 'GET',
+            params: {
+                name: name,
+                mark: mark
+            }
+        }).then(function (response) {
+            $scope.loadProductsOnBin();
+        })
     }
 
     $scope.loadProductsOnBin();
