@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @RestController
@@ -25,13 +26,17 @@ public class ProductController {
 
 
     @GetMapping
-    public Page<ProductDto> getProducts(@RequestParam (name="p", defaultValue = "1") Integer page,
+    public Page<ProductDto> getProducts(//@RequestParam (name="size", defaultValue = "5") Integer size,
+                                        @RequestParam (name="p", defaultValue = "1") Integer page,
                                         @RequestParam (name = "min_price", required = false) Integer minPrice,
                                         @RequestParam (name = "max_price", required = false) Integer maxPrice,
                                         @RequestParam (name = "title", required = false) String title) {
+
         if (page<1){
             page = 1;
         }
+
+
         Page<ProductDto> products = productService.find(minPrice,maxPrice,title,page).map(p-> productConverter.entityToDto(p));
         return products;
     }

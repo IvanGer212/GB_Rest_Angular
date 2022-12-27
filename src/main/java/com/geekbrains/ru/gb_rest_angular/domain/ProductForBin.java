@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductForBin {
+    private Long id;
     private String title;
     private Integer pricePerProduct;
     private Integer quantity;

@@ -34,9 +34,10 @@ public class BinCart {
 
     public void add (ProductDto productDto){
         ProductForBin productForBin = new ProductForBin();
+        productForBin.setId(productDto.getId());
         productForBin.setTitle(productDto.getTitle());
         productForBin.setPricePerProduct(productDto.getCost());
-        Optional<ProductForBin> first = productsForBin.stream().filter(p -> p.getTitle().equals(productForBin.getTitle())).findFirst();
+        Optional<ProductForBin> first = productsForBin.stream().filter(p -> p.getId().equals(productForBin.getId())).findFirst();
         if(first.isPresent()){
             first.get().setQuantity(first.get().getQuantity() + 1);
         } else {
@@ -46,25 +47,29 @@ public class BinCart {
         recalculate();
     }
 
-    public void delete (String name){
-        Optional<ProductForBin> first = productsForBin.stream().filter(p -> p.getTitle().equals(name)).findFirst();
-        first.ifPresent(p-> productsForBin.remove(p));
-        recalculate();
+    public void delete (Long id){
+        if (productsForBin.removeIf(p->p.getId().equals(id))){
+            recalculate();
+        }
+//        Optional<ProductForBin> first = productsForBin.stream().filter(p -> p.getTitle().equals(name)).findFirst();
+//        first.ifPresent(p-> productsForBin.remove(p));
+//        recalculate();
     }
 
     public void clear (){
         productsForBin.clear();
-        recalculate();
+        totalPrice = 0;
     }
 
-    public void changeScore(String name, String mark){
-        Optional<ProductForBin> first = productsForBin.stream().filter(p -> p.getTitle().equals(name)).findFirst();
+    public void changeScore(Long id, String mark){
+        Optional<ProductForBin> first = productsForBin.stream().filter(p -> p.getId().equals(id)).findFirst();
         if (mark.equals("-")){
             ProductForBin productForBin = first.get();
             productForBin.setQuantity(productForBin.getQuantity()-1);
-            if (productForBin.getQuantity() <=0) {
-                delete(name);
-            }
+            productsForBin.removeIf(p->p.getQuantity() <=0);
+//            if (productForBin.getQuantity() <=0) {
+//                delete(name);
+//            }
         } else if (mark.equals("+")){
             ProductForBin productForBin = first.get();
             productForBin.setQuantity(productForBin.getQuantity()+1);

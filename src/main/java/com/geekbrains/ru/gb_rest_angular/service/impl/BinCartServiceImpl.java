@@ -42,8 +42,8 @@ public class BinCartServiceImpl implements BinCartService {
     }
 
     @Override
-    public void deleteProductOnBin(String name) {
-        binCart.delete(name);
+    public void deleteProductOnBin(Long id) {
+        binCart.delete(id);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class BinCartServiceImpl implements BinCartService {
     }
 
     @Override
-    public void changeScore(String name, String mark) {
-        binCart.changeScore(name, mark);
+    public void changeScore(Long id, String mark) {
+        binCart.changeScore(id, mark);
     }
 }

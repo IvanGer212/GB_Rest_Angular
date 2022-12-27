@@ -1,13 +1,12 @@
-package com.geekbrains.ru.gb_rest_angular.domain;
+package com.geekbrains.ru.gb_rest_angular.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class Limits {
-    private Integer min;
-    private Integer max;
+public class JwtResponse {
+    private String token;
 }

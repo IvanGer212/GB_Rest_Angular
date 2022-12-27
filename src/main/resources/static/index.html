@@ -9,12 +9,39 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
     <script src="index.js"></script>
 
     <title>Products</title>
 </head>
 <body>
 <div class="row" ng-controller="productController">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">My market</a>
+                </li>
+                <li class="nav-item" ng-show="!isUserLoggedIn()">
+                    <form class="align-middle" ng-submit="tryToAuth()">
+                        <div class="input-group input-group-sm">
+                            <input id="navLoginField" class="form-control" ng-model="user.username" type="text" aria-describedby="inputGroup-sizing-sm">
+
+                            <input id="navPasswordField" class="form-control" ng-model="user.password" type="password" aria-describedby="inputGroup-sizing-sm">
+
+                            <button id="navLogginSubmit" class="btn btn-outline-marning btn-sm" type="submit">Войти</button>
+
+                        </div>
+                    </form>
+                </li>
+                <li class="nav-item" ng-show="isUserLoggedIn()">
+                    <button class="btn btn-outline-secondary btn-sm" ng-click="tryToLogout()">Выйти</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
     <div class="col"></div>
     <div class="col-6">
         <div class="container text-center">
@@ -40,6 +67,15 @@
                     </tr>
                 </tbody>
             </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+
+                    <li class="page-item"><a class="page-link" ng-click="loadProducts(1)" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" ng-click="loadProducts(2)" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" ng-click="loadProducts(3)" href="#">3</a></li>
+
+                </ul>
+            </nav>
             <p></p>
             <div class="row">
                 <div class="col"></div>
@@ -72,13 +108,13 @@
                     <tr ng-repeat="prB in ProductBinList.productsForBin">
                         <td>{{prB.title}}</td>
                         <td>{{prB.pricePerProduct}}</td>
-                        <td><button class="btn btn-info" ng-click="changeScore(prB.title,'-')">-</button>
+                        <td><button class="btn btn-info" ng-click="changeScore(prB.id,'-')">-</button>
                             {{prB.quantity}}
-                            <button class="btn btn-info" ng-click="changeScore(prB.title,'+')">+</button>
+                            <button class="btn btn-info" ng-click="changeScore(prB.id,'+')">+</button>
                         </td>
                         <td>{{prB.pricePerProduct + ' * ' + prB.quantity + ' = ' + prB.price}}</td>
                         <td>
-                            <button class="btn btn-danger" ng-click="deleteProductOnBin(prB.title)">Удалить</button>
+                            <button class="btn btn-danger" ng-click="deleteProductOnBin(prB.id)">Удалить</button>
                         </td>
                     </tr>
                     <tr>

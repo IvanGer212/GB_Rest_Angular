@@ -1,7 +1,9 @@
 CREATE TABLE product (
-    id serial primary key,
+    id bigserial primary key,
     title varchar not null,
-    price int not null
+    price int not null,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
 );
 
 INSERT INTO product (title, price) VALUES

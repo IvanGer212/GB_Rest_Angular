@@ -1,12 +1,69 @@
-angular.module('app',[]).controller('productController',function ($scope, $http) {
+angular.module('app',['ngStorage']).controller('productController',function ($scope, $http, $localStorage) {
     const contextPath = 'http://localhost:8080/app/api/v1';
 
+    $scope.tryToAuth = function (){
+      $http.post('http://localhost:8080/auth', $scope.user)
+          .then(function successCallback(response) {
+              if (response.data.token) {
+                  $http.default.headers.common.Authorization = 'Bearer ' + response.data.token;
+                  $localStorage.myMarketUser = {username: $scope.user.username, token: response.data.token};
 
-    $scope.loadProducts = function(pageIndex = 1){
+                  $scope.user.username = null;
+                  $scope.user.password = null;
+
+              }
+          })
+    };
+
+    $scope.tryToLogout = function (){
+        $scope.clearUser();
+        $scope.user = null;
+        $location.pathname('/')
+    }
+
+    $scope.clearUser = function (){
+        delete $localStorage.myMarketUser;
+        $http.defaults.headers.common.Authorization = '';
+    };
+
+    $scope.isUserLoggedIn = function (){
+        if ($localStorage.myMarketUser){
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    if ($localStorage.myMarketUser){
+        try {
+            let jwt = $localStorage.myMarketUser.token;
+            let payload = JSON.parse(atob(jwt.split('.')[1]));
+            let curentTime = parseInt(new Date().getTime()/1000);
+            if (curentTime > payload.exp){
+                console.log("Token is expired!!!");
+                delete $localStorage.myMarketUser;
+                $http.defaults.headers.common.Authorization = '';
+            }
+        } catch (e) {
+        }
+
+        $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.myMarketUser.token;
+    }
+
+
+    $scope.loadProducts = function(pageIndex){
+        console.log(pageIndex);
+        //console.log(size);
+        //console.log(sizeRet);
+        // if (size!= sizeRet) {
+        //     sizeRet = size;
+        // }
         $http({
             url: contextPath + "/products",
             method: 'GET',
             params: {
+                //size: sizeRet,
+                p: pageIndex,
                 title: $scope.filter ? $scope.filter.title: null,
                 min_price: $scope.filter ? $scope.filter.min: null,
                 max_price: $scope.filter ? $scope.filter.max: null
@@ -41,7 +98,6 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
 
 
     $scope.createProduct = function (title, price){
-        console.log('create');
         $http({
             url: contextPath + "/products",
             method: 'POST',
@@ -80,28 +136,25 @@ angular.module('app',[]).controller('productController',function ($scope, $http)
     };
 
 
-    $scope.deleteProductOnBin = function (productName){
-        console.log('delete');
-        $http.get(contextPath + "/cart/delete/"+productName).then(function (response){
+    $scope.deleteProductOnBin = function (productId){
+        $http.get(contextPath + "/cart/delete/"+productId).then(function (response){
             $scope.loadProductsOnBin();
         });
     };
 
     $scope.clearCart = function (){
-        console.log('clear');
         $http.get(contextPath + "/cart/clear").then(function (response){
             $scope.loadProductsOnBin();
         });
     };
 
-    $scope.changeScore = function (name, mark) {
-        console.log(name);
-        console.log(mark);
+    $scope.changeScore = function (id, mark) {
+        console.log(id, mark);
         $http({
             url: contextPath + "/cart/change_score",
             method: 'GET',
             params: {
-                name: name,
+                id: id,
                 mark: mark
             }
         }).then(function (response) {

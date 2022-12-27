@@ -4,6 +4,8 @@ import com.geekbrains.ru.gb_rest_angular.domain.Product;
 import com.geekbrains.ru.gb_rest_angular.dto.ProductDto;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 public class ProductConverter {
 
