@@ -14,5 +14,9 @@ spring:
       hibernate:
         formate-sql: true
 
+jwt:
+        secret: nckYV&%557Btjm#biYcES%buHv
+        lifetime: 3600000
+
 
 
