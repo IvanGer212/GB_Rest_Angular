@@ -1,5 +1,68 @@
-angular.module('app',[]).controller('productController',function ($scope, $http) {
+angular.module('app',['ngStorage']).controller('productController',function ($scope, $http, $localStorage) {
     const contextPath = 'http://localhost:8080/app/api/v1';
+
+
+    $scope.tryToAuth = function (){
+        $http.post('http://localhost:8080/auth', $scope.user)
+            .then(function successCallback(response) {
+                if (response.data.token) {
+                    console.log(response.data.token);
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
+                    console.log($http.defaults.headers.common.Authorization);
+                    $localStorage.myMarketUser = {username: $scope.user.username, token: response.data.token};
+                    console.log($localStorage.myMarketUser);
+                    $scope.user.username = null;
+                    $scope.user.password = null;
+
+                }
+            })
+    };
+
+    $scope.tryToLogout = function (){
+        $scope.clearUser();
+        $scope.user = null;
+        $location.pathname('/')
+    }
+
+    $scope.clearUser = function (){
+        delete $localStorage.myMarketUser;
+        $http.defaults.headers.common.Authorization = '';
+    };
+
+    $scope.isUserLoggedIn = function (){
+        if ($localStorage.myMarketUser){
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    if ($localStorage.myMarketUser){
+        try {
+            let jwt = $localStorage.myMarketUser.token;
+            let payload = JSON.parse(atob(jwt.split('.')[1]));
+            console.log(payload);
+            console.log(payload.username);
+            let curentTime = parseInt(new Date().getTime()/1000);
+            if (curentTime > payload.exp){
+                console.log("Token is expired!!!");
+                delete $localStorage.myMarketUser;
+                $http.defaults.headers.common.Authorization = '';
+            }
+        } catch (e) {
+        }
+
+        $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.myMarketUser.token;
+    }
+
+
+    $scope.authCheck = function () {
+        $http.get('http://localhost:8189/winter/auth_check').then(function (response) {
+            alert(response.data.value);
+        });
+    };
+
+
 
 
     $scope.loadProducts = function(pageIndex = 1){
