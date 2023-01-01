@@ -6,11 +6,8 @@ angular.module('app',['ngStorage']).controller('productController',function ($sc
         $http.post('http://localhost:8080/auth', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
-                    console.log(response.data.token);
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
-                    console.log($http.defaults.headers.common.Authorization);
                     $localStorage.myMarketUser = {username: $scope.user.username, token: response.data.token};
-                    console.log($localStorage.myMarketUser);
                     $scope.user.username = null;
                     $scope.user.password = null;
 
@@ -54,13 +51,6 @@ angular.module('app',['ngStorage']).controller('productController',function ($sc
 
         $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.myMarketUser.token;
     }
-
-
-    $scope.authCheck = function () {
-        $http.get('http://localhost:8189/winter/auth_check').then(function (response) {
-            alert(response.data.value);
-        });
-    };
 
 
 
@@ -169,6 +159,25 @@ angular.module('app',['ngStorage']).controller('productController',function ($sc
             }
         }).then(function (response) {
             $scope.loadProductsOnBin();
+        })
+    }
+
+    $scope.createOrder = function (cost){
+        console.log(cost);
+        let username;
+        let loged = $scope.isUserLoggedIn;
+        if (loged()){
+            username = $localStorage.myMarketUser.username;
+        }
+        else {
+            username = "";
+        }
+
+        $http({
+            url: contextPath + "/order/create",
+            method: 'GET'
+        }).then(function (response){
+            $scope.clearCart()
         })
     }
 
