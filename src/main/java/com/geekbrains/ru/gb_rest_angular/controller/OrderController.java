@@ -2,6 +2,7 @@ package com.geekbrains.ru.gb_rest_angular.controller;
 
 import com.geekbrains.ru.gb_rest_angular.domain.User;
 import com.geekbrains.ru.gb_rest_angular.exception.ResourceNotFoundException;
+import com.geekbrains.ru.gb_rest_angular.service.OrderItemsService;
 import com.geekbrains.ru.gb_rest_angular.service.OrderService;
 import com.geekbrains.ru.gb_rest_angular.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class OrderController {
     private final OrderService orderService;
     private final UserService userService;
 
-    @GetMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createOrder (Principal principal){
         User user = userService.findUserByUserName(principal.getName()).get();

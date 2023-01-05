@@ -133,9 +133,9 @@ angular.module('app',['ngStorage']).controller('productController',function ($sc
     };
 
 
-    $scope.deleteProductOnBin = function (productName){
+    $scope.deleteProductOnBin = function (productId){
         console.log('delete');
-        $http.get(contextPath + "/cart/delete/"+productName).then(function (response){
+        $http.get(contextPath + "/cart/delete/"+productId).then(function (response){
             $scope.loadProductsOnBin();
         });
     };
@@ -147,14 +147,14 @@ angular.module('app',['ngStorage']).controller('productController',function ($sc
         });
     };
 
-    $scope.changeScore = function (name, mark) {
-        console.log(name);
+    $scope.changeScore = function (id, mark) {
+        console.log(id);
         console.log(mark);
         $http({
             url: contextPath + "/cart/change_score",
             method: 'GET',
             params: {
-                name: name,
+                id: id,
                 mark: mark
             }
         }).then(function (response) {
@@ -174,8 +174,8 @@ angular.module('app',['ngStorage']).controller('productController',function ($sc
         }
 
         $http({
-            url: contextPath + "/order/create",
-            method: 'GET'
+            url: contextPath + "/order",
+            method: 'POST'
         }).then(function (response){
             $scope.clearCart()
         })

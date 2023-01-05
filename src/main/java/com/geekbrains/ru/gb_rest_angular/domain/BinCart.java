@@ -34,6 +34,7 @@ public class BinCart {
 
     public void add (ProductDto productDto){
         ProductForBin productForBin = new ProductForBin();
+        productForBin.setId(productDto.getId());
         productForBin.setTitle(productDto.getTitle());
         productForBin.setPricePerProduct(productDto.getCost());
         Optional<ProductForBin> first = productsForBin.stream().filter(p -> p.getTitle().equals(productForBin.getTitle())).findFirst();
@@ -46,8 +47,8 @@ public class BinCart {
         recalculate();
     }
 
-    public void delete (String name){
-        Optional<ProductForBin> first = productsForBin.stream().filter(p -> p.getTitle().equals(name)).findFirst();
+    public void delete (Long id){
+        Optional<ProductForBin> first = productsForBin.stream().filter(p -> p.getId().equals(id)).findFirst();
         first.ifPresent(p-> productsForBin.remove(p));
         recalculate();
     }
@@ -57,13 +58,13 @@ public class BinCart {
         recalculate();
     }
 
-    public void changeScore(String name, String mark){
-        Optional<ProductForBin> first = productsForBin.stream().filter(p -> p.getTitle().equals(name)).findFirst();
+    public void changeScore(Long id, String mark){
+        Optional<ProductForBin> first = productsForBin.stream().filter(p -> p.getId().equals(id)).findFirst();
         if (mark.equals("-")){
             ProductForBin productForBin = first.get();
             productForBin.setQuantity(productForBin.getQuantity()-1);
             if (productForBin.getQuantity() <=0) {
-                delete(name);
+                delete(id);
             }
         } else if (mark.equals("+")){
             ProductForBin productForBin = first.get();

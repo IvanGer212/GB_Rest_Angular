@@ -1,30 +1,39 @@
 package com.geekbrains.ru.gb_rest_angular.service.impl;
 
-import com.geekbrains.ru.gb_rest_angular.domain.BinCart;
-import com.geekbrains.ru.gb_rest_angular.domain.Order;
-import com.geekbrains.ru.gb_rest_angular.domain.OrderItem;
-import com.geekbrains.ru.gb_rest_angular.domain.User;
+import com.geekbrains.ru.gb_rest_angular.domain.*;
 import com.geekbrains.ru.gb_rest_angular.repository.OrderRepository;
-import com.geekbrains.ru.gb_rest_angular.service.OrderService;
-import com.geekbrains.ru.gb_rest_angular.service.UserService;
+import com.geekbrains.ru.gb_rest_angular.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
-    private final UserService userService;
-    private final BinCartServiceImpl cartService;
+    private final BinCartService cartService;
+    private final ProductService productService;
 
     @Override
+    @Transactional
     public void createOrder(User user) {
         Order order = new Order();
-        order.setUser(user);
         BinCart cart = cartService.findAllProductOnBin();
+        order.setUser(user);
         order.setCost(cart.getTotalPrice());
-        Order save = orderRepository.save(order);
+        order.setItems(cart.getProductsForBin().stream().map(
+                    cartItem-> new OrderItem(
+                            productService.findProductById(cartItem.getId()).get(),
+                            order,
+                            cartItem.getQuantity(),
+                            cartItem.getPricePerProduct(),
+                            cartItem.getPrice()
+                    )
+        ).collect(Collectors.toList()));
+        orderRepository.save(order);
+     }
 
-
-    }
 }
+

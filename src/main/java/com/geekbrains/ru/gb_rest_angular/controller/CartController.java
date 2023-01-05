@@ -26,18 +26,18 @@ public class CartController {
         binCartService.addProductOnBin(productDto);
     }
 
-    @GetMapping("/delete/{name}")
-    public void deleteProductOnBin(@PathVariable String name){
-        binCartService.deleteProductOnBin(name);
+    @GetMapping("/delete/{id}")
+    public void deleteProductOnBin(@PathVariable Long id){
+        binCartService.deleteProductOnBin(id);
     }
 
     @GetMapping("/clear")
     public void clearCart (){ binCartService.clearCart();}
 
     @GetMapping("/change_score")
-    public void changeScore(@RequestParam (name = "name") String name,
+    public void changeScore(@RequestParam (name = "id") Long id,
                             @RequestParam (name = "mark") String mark) {
-        binCartService.changeScore(name, mark);
+        binCartService.changeScore(id, mark);
 
     }
 }

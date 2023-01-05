@@ -12,9 +12,9 @@ public interface BinCartService {
 
     BinCart findAllProductOnBin();
 
-    void deleteProductOnBin(String name);
+    void deleteProductOnBin(Long id);
 
     void clearCart();
 
-    void changeScore(String name, String mark);
+    void changeScore(Long id, String mark);
 }

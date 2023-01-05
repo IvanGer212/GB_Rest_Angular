@@ -8,9 +8,8 @@ import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "order_items")
+@Table(name = "order_item")
 public class OrderItem {
 
     @Id
@@ -34,4 +33,12 @@ public class OrderItem {
 
     @Column(name = "cost")
     private Integer costOrder;
+
+    public OrderItem(Product product, Order order, Integer quantity, Integer pricePerProduct, Integer costOrder) {
+        this.product = product;
+        this.order = order;
+        this.quantity = quantity;
+        this.pricePerProduct = pricePerProduct;
+        this.costOrder = costOrder;
+    }
 }

@@ -99,13 +99,13 @@
                     <tr ng-repeat="prB in ProductBinList.productsForBin">
                         <td>{{prB.title}}</td>
                         <td>{{prB.pricePerProduct}}</td>
-                        <td><button class="btn btn-info" ng-click="changeScore(prB.title,'-')">-</button>
+                        <td><button class="btn btn-info" ng-click="changeScore(prB.id,'-')">-</button>
                             {{prB.quantity}}
-                            <button class="btn btn-info" ng-click="changeScore(prB.title,'+')">+</button>
+                            <button class="btn btn-info" ng-click="changeScore(prB.id,'+')">+</button>
                         </td>
                         <td>{{prB.pricePerProduct + ' * ' + prB.quantity + ' = ' + prB.price}}</td>
                         <td>
-                            <button class="btn btn-danger" ng-click="deleteProductOnBin(prB.title)">Удалить</button>
+                            <button class="btn btn-danger" ng-click="deleteProductOnBin(prB.id)">Удалить</button>
                         </td>
                     </tr>
                     <tr>

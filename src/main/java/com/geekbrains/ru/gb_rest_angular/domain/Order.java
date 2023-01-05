@@ -22,7 +22,7 @@ public class Order {
     @JoinColumn(name = "customer_id")
     private User user;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
     private List<OrderItem> items;
 
     @Column(name = "cost")
@@ -33,4 +33,5 @@ public class Order {
 
     @Column(name = "phone")
     private String phone;
+
 }
