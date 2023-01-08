@@ -1,4 +1,4 @@
-CREATE TABLE product (
+CREATE TABLE products (
                          id bigserial primary key,
                          title varchar not null,
                          price int not null,
@@ -6,7 +6,7 @@ CREATE TABLE product (
                          updated_at timestamp default current_timestamp
 );
 
-INSERT INTO product (title, price) VALUES
+INSERT INTO products (title, price) VALUES
                                        ('Product 1', 100),
                                        ('Product 2', 101),
                                        ('Product 3', 102),

@@ -1,14 +1,14 @@
 package com.geekbrains.ru.gb_rest_angular.dto;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class UserDtoRegistr {
 
     private Long id;
     private String userName;
@@ -16,9 +16,9 @@ public class UserDto {
     private String password;
     private String email;
     private String phone;
-    private List<String> roles;
+    private String roles;
 
-    public UserDto(Long id, String userName, String surname, String email, String phone, List<String> roles) {
+    public UserDtoRegistr(Long id, String userName, String surname, String email, String phone, String roles) {
         this.id = id;
         this.userName = userName;
         this.surname = surname;

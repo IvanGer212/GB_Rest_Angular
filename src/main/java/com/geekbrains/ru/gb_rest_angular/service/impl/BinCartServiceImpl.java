@@ -32,12 +32,6 @@ public class BinCartServiceImpl implements BinCartService {
 
     @Override
     public BinCart findAllProductOnBin() {
-//        List<ProductForBin> productsForBin = binCart.getProductsForBin();
-//        if (productsForBin.isEmpty()){
-//            return new ArrayList<>();
-//        }
-//        else
-//            return productsForBin;
         return binCart;
     }
 

@@ -56,15 +56,6 @@ public class ProductController {
         Product product = productConverter.dtoToEntity(newProductDto);
         product = productService.addNewProduct(product);
         return productConverter.entityToDto(product);
-//        Product newProduct = new Product();
-//        Optional<ErrorResponse> validationError = validationNewProduct(newProductDto);
-//        if(validationError.isPresent()){
-//          return newProductDto;
-//        }
-//        newProduct.setTitle(newProductDto.getTitle());
-//        newProduct.setCost(newProductDto.getCost());
-//        Product saveProduct = productService.addNewProduct(newProduct);
-//        return new ProductDto(saveProduct);
     }
 
     @PutMapping
@@ -74,19 +65,6 @@ public class ProductController {
         return productConverter.entityToDto(product);
     }
 
-//    private Optional<ErrorResponse> validationNewProduct (ProductDto newProduct){
-//        List<String> details = new ArrayList<>();
-//        if (newProduct.getTitle().isEmpty()){
-//            details.add("Product name could not be empty!");
-//        }
-//        if (newProduct.getCost() <= 0){
-//            details.add("Price could not be less or equal 0!");
-//        }
-//        if (details.size()!=0){
-//            return Optional.of(new ErrorResponse("Uncorrect Product!",details));
-//        }
-//        return Optional.empty();
-//    }
 
 }
 

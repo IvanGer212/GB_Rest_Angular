@@ -1,5 +1,6 @@
 package com.geekbrains.ru.gb_rest_angular.controller;
 
+import com.geekbrains.ru.gb_rest_angular.domain.User;
 import com.geekbrains.ru.gb_rest_angular.dto.JwtRequest;
 import com.geekbrains.ru.gb_rest_angular.dto.JwtResponse;
 import com.geekbrains.ru.gb_rest_angular.service.UserService;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
+
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
@@ -25,13 +28,15 @@ public class AuthController {
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest){
         try{
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(),authRequest.getPassword()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(),authRequest.getPassword()));
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
+        UserDetails userDetails = userService.loadUserByUsername(authRequest.getEmail());
         String token = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(token));
+        User user = userService.findUserByEmail(authRequest.getEmail()).get();
+        String username = user.getUserName() + " " + user.getSurname();
+        return ResponseEntity.ok(new JwtResponse(token, username));
     }
 
 }

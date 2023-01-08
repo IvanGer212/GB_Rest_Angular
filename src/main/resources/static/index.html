@@ -26,7 +26,7 @@
                 <li class="nav-item" ng-show="!isUserLoggedIn()">
                     <form class="align-middle" ng-submit="tryToAuth()">
                         <div class="input-group input-group-sm">
-                            <input id="navLoginField" class="form-control" ng-model="user.username" type="text" aria-describedby="inputGroup-sizing-sm">
+                            <input id="navLoginField" class="form-control" ng-model="user.email" type="text" aria-describedby="inputGroup-sizing-sm">
 
                             <input id="navPasswordField" class="form-control" ng-model="user.password" type="password" aria-describedby="inputGroup-sizing-sm">
 
@@ -84,54 +84,106 @@
                 </div>
                 <div class="col"></div>
                 <p></p>
-                <h3>Корзина</h3>
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">Название</th>
-                        <th scope="col">Цена</th>
-                        <th scope="col">Количество</th>
-                        <th scope="col">Стоимость</th>
-                        <th scope="col">Удалить</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="prB in ProductBinList.productsForBin">
-                        <td>{{prB.title}}</td>
-                        <td>{{prB.pricePerProduct}}</td>
-                        <td><button class="btn btn-info" ng-click="changeScore(prB.id,'-')">-</button>
-                            {{prB.quantity}}
-                            <button class="btn btn-info" ng-click="changeScore(prB.id,'+')">+</button>
-                        </td>
-                        <td>{{prB.pricePerProduct + ' * ' + prB.quantity + ' = ' + prB.price}}</td>
-                        <td>
-                            <button class="btn btn-danger" ng-click="deleteProductOnBin(prB.id)">Удалить</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>Итого</td>
-                        <td></td>
-                        <td>{{ProductBinList.totalPrice}} </td>
-                        <td>
-                            <button class="btn btn-danger" ng-click="clearCart()">Очистить корзину</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button class="btn btn-primary" ng-click="createOrder(ProductBinList.totalPrice)">Оформить заказ</button>
-                        </td>
-                    </tr>
+            </div>
+            <h3>Корзина</h3>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Название</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col">Количество</th>
+                    <th scope="col">Стоимость</th>
+                    <th scope="col">Удалить</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="prB in ProductBinList.productsForBin">
+                    <td>{{prB.title}}</td>
+                    <td>{{prB.pricePerProduct}}</td>
+                    <td><button class="btn btn-info" ng-click="changeScore(prB.id,'-')">-</button>
+                        {{prB.quantity}}
+                        <button class="btn btn-info" ng-click="changeScore(prB.id,'+')">+</button>
+                    </td>
+                    <td>{{prB.pricePerProduct + ' * ' + prB.quantity + ' = ' + prB.price}}</td>
+                    <td>
+                        <button class="btn btn-danger" ng-click="deleteProductOnBin(prB.id)">Удалить</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Итого</td>
+                    <td></td>
+                    <td>{{ProductBinList.totalPrice}} </td>
+                    <td>
+                        <button class="btn btn-danger" ng-click="clearCart()">Очистить корзину</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button class="btn btn-primary" ng-click="createOrder(ProductBinList.totalPrice)">Оформить заказ</button>
+                    </td>
+                </tr>
 
-                    </tbody>
-                </table>
+                </tbody>
+            </table>
+            <p></p>
+            <h3>Пользователи</h3>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Фамилия</th>
+                    <th scope="col">email</th>
+                    <th scope="col">Номер телефона</th>
+                    <th scope="col">Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="u in UserList">
+                    <td>{{u.id}}</td>
+                    <td>{{u.userName}}</td>
+                    <td>{{u.surname}}</td>
+                    <td>{{u.email}}</td>
+                    <td>{{u.phone}}</td>
+                    <td>
+                        <button class="btn btn-danger" ng-click="deleteUser(u.id)">Удалить</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <p></p>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col">
+                    <h3>Добавить пользователя</h3>
+                    <form novalidate ng-submit="createUser()">
+                        <input class="form-control" type="text"  placeholder="Имя" required ng-model="User.userName">
+                        <p></p>
+                        <input class="form-control" type="text" placeholder="Фамилия" required ng-model="User.surname">
+                        <p></p>
+                        <input class="form-control" type="password" placeholder="Пароль" required ng-model="User.password">
+                        <p></p>
+                        <input class="form-control" type="text" placeholder="email" required ng-model="User.email">
+                        <p></p>
+                        <input class="form-control" type="text" placeholder="Номер телефона" required ng-model="User.phone">
+                        <p></p>
+                        <input class="form-control" type="text" placeholder="уровень доступа" required ng-model="User.roles">
+                        <p></p>
+                        <button type="submit" class="btn btn-primary">Добавить пользователя</button>
+                    </form>
+                    <p></p>
+                    <h6 style="color: red" ng-model="msg">{{msg}}</h6>
+                </div>
+                <div class="col"></div>
+                <p></p>
             </div>
         </div>
-        </div>
+    </div>
     <div class="col">
         <div class="row">
             <div class="col">

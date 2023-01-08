@@ -24,7 +24,7 @@ public class OrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createOrder (Principal principal){
-        User user = userService.findUserByUserName(principal.getName()).get();
+        User user = userService.findUserByEmail(principal.getName()).get();
         orderService.createOrder(user);
     }
 

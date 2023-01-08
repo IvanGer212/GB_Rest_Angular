@@ -1,15 +1,17 @@
 package com.geekbrains.ru.gb_rest_angular.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "order_item")
+@Table(name = "order_items")
 public class OrderItem {
 
     @Id
@@ -33,6 +35,14 @@ public class OrderItem {
 
     @Column(name = "cost")
     private Integer costOrder;
+
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public OrderItem(Product product, Order order, Integer quantity, Integer pricePerProduct, Integer costOrder) {
         this.product = product;

@@ -7,8 +7,8 @@ angular.module('app',['ngStorage']).controller('productController',function ($sc
             .then(function successCallback(response) {
                 if (response.data.token) {
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
-                    $localStorage.myMarketUser = {username: $scope.user.username, token: response.data.token};
-                    $scope.user.username = null;
+                    $localStorage.myMarketUser = {email: $scope.user.email, username: response.data.username, token: response.data.token};
+                    $scope.user.email = null;
                     $scope.user.password = null;
 
                 }
@@ -34,6 +34,31 @@ angular.module('app',['ngStorage']).controller('productController',function ($sc
         }
     };
 
+    $scope.loadUsers = function (){
+        $http.get(contextPath + "/users").then(function (response){
+            console.log(response.data);
+            $scope.UserList = response.data;
+        })
+    }
+
+    $scope.deleteUser = function (userId){
+        console.log('delete user')
+        $http.delete(contextPath + '/users/' + userId)
+            .then(function (response){
+                $scope.loadUsers();
+            });
+    }
+
+    $scope.createUser = function (userName, surname, password, email, phone, roles){
+        $http({
+            url: contextPath + "/users",
+            method: 'POST',
+            data: $scope.User
+        }).then(function (response){
+            $scope.loadUsers();
+        });
+    }
+
     if ($localStorage.myMarketUser){
         try {
             let jwt = $localStorage.myMarketUser.token;
@@ -53,8 +78,6 @@ angular.module('app',['ngStorage']).controller('productController',function ($sc
     }
 
 
-
-
     $scope.loadProducts = function(pageIndex = 1){
         $http({
             url: contextPath + "/products",
@@ -71,27 +94,11 @@ angular.module('app',['ngStorage']).controller('productController',function ($sc
 
 
     $scope.deleteProduct = function (productId){
-        console.log('delete');
         $http.delete(contextPath + "/products/" + productId)
             .then(function (response){
                 $scope.loadProducts();
             });
     }
-
-    // $scope.filterByCost = function (min, max){
-    //     console.log($scope.Limits);
-    //     $http({
-    //         url: contextPath + "/product-between",
-    //         method: 'GET',
-    //         params: {
-    //             min: $scope.Limits.min,
-    //             max: $scope.Limits.max
-    //         }
-    //     }).then(function (response){
-    //         $scope.ProductList = response.data;
-    //     });
-    // }
-
 
     $scope.createProduct = function (title, price){
         console.log('create');
@@ -183,4 +190,5 @@ angular.module('app',['ngStorage']).controller('productController',function ($sc
 
     $scope.loadProductsOnBin();
     $scope.loadProducts();
+    $scope.loadUsers();
 })
