@@ -23,7 +23,7 @@ public class BinCartServiceImpl implements BinCartService {
 
     @Override
     public void addProductOnBin(Long id) {
-        ProductDto product = productServiceIntegration.getProductById(id).orElseThrow(()->new ResourceNotFoundException("Не удалось добавить продукт с id: " + id + " в корзину. Продукт не найден."));
+        ProductDto product = productServiceIntegration.getProductById(id); //.orElseThrow(()->new ResourceNotFoundException("Не удалось добавить продукт с id: " + id + " в корзину. Продукт не найден."));
         binCart.add(product);
     }
 

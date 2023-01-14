@@ -1,7 +1,6 @@
 package com.geekbrains.ru.gb_rest_angular.cart.controller;
 
 import com.geekbrains.ru.gb_rest_angular.api.BinCartDto;
-import com.geekbrains.ru.gb_rest_angular.api.ProductDto;
 import com.geekbrains.ru.gb_rest_angular.cart.converter.CartConverter;
 import com.geekbrains.ru.gb_rest_angular.cart.model.BinCart;
 import com.geekbrains.ru.gb_rest_angular.cart.service.BinCartService;

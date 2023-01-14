@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/app/api/v1/users")
+@CrossOrigin("*")
 public class UserController {
     private final UserService userService;
     private final UserConverter userConverter;

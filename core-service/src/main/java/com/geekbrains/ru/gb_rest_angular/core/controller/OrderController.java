@@ -14,6 +14,7 @@ import java.security.Principal;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/app/api/v1/order")
+@CrossOrigin("*")
 public class OrderController {
     private final OrderService orderService;
     private final UserService userService;
