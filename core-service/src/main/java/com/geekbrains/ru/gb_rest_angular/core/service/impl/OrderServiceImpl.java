@@ -23,7 +23,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void createOrder(User user) {
+    public Order createOrder(User user) {
         Order order = new Order();
         BinCartDto cart = cartServiceIntegration.getCurrentCart();
         order.setUser(user);
@@ -38,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
                     )
         ).collect(Collectors.toList()));
         orderRepository.save(order);
+        return order;
      }
 
 }

@@ -78,11 +78,12 @@ angular.module('app',['ngStorage']).controller('productController',function ($sc
     }
 
 
-    $scope.loadProducts = function(pageIndex = 1){
+    $scope.loadProducts = function(pageIndex){
         $http({
             url: contextPath + "/products",
             method: 'GET',
             params: {
+                p: pageIndex,
                 title: $scope.filter ? $scope.filter.title: null,
                 min_price: $scope.filter ? $scope.filter.min: null,
                 max_price: $scope.filter ? $scope.filter.max: null
