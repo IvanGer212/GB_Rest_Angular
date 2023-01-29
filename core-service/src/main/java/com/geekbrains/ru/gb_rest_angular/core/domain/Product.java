@@ -34,6 +34,9 @@ public class Product {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    //TODO сделать зависимость на OrderItem и пометить , cascade = CascadeType.PERSIST, orphanRemoval = true
+    //TODO добавить категории товаров
+
     public Product(Long id, String title, Integer cost) {
         this.id = id;
         this.title = title;
