@@ -8,13 +8,15 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "products")
-public class Product {
+@Table(name = "category")
+public class Category {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,12 +25,11 @@ public class Product {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "price")
-    private Integer cost;
+    @Column(name = "parent_category")
+    private Long parentId;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -38,12 +39,4 @@ public class Product {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    //TODO сделать зависимость на OrderItem и пометить , cascade = CascadeType.PERSIST, orphanRemoval = true
-    //TODO добавить категории товаров
-
-    public Product(Long id, String title, Integer cost) {
-        this.id = id;
-        this.title = title;
-        this.cost = cost;
-    }
 }

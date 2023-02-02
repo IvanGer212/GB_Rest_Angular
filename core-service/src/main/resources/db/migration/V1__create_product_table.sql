@@ -1,7 +1,23 @@
+CREATE TABLE category (
+    id bigserial primary key,
+    title varchar not null,
+    parent_category bigint references category(id),
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
+);
+
+INSERT INTO category (title) VALUES
+                                    ('food'),
+                                    ('electronics'),
+                                    ('dress'),
+                                    ('furniture');
+
+
 CREATE TABLE products (
                          id bigserial primary key,
                          title varchar not null,
                          price int not null,
+                         category_id bigint references category (id),
                          created_at timestamp default current_timestamp,
                          updated_at timestamp default current_timestamp
 );

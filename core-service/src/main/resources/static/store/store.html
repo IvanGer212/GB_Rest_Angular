@@ -1,7 +1,58 @@
-<div>
+<div class="container text-center">
     <p></p>
     <h3>Каталог товаров</h3>
     <p></p>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+           <th scope="col">ID</th>
+           <th scope="col">Название</th>
+           <th scope="col">Цена</th>
+           <th scope="col">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="p in ProductList">
+           <td>{{p.id}}</td>
+           <td>{{p.title}}</td>
+           <td>{{p.cost}}</td>
+           <td>
+              <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Удалить</button>
+              <button class="btn btn-primary" ng-click="addProductOnBin(p.id)">В корзину</button>
+           </td>
+        </tr>
+        </tbody>
+        </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
 
+           <li class="page-item"><a class="page-link" ng-click="loadProducts(1)" href="#">1</a></li>
+           <li class="page-item"><a class="page-link" ng-click="loadProducts(2)" href="#">2</a></li>
+           <li class="page-item"><a class="page-link" ng-click="loadProducts(3)" href="#">3</a></li>
+        </ul>
+    </nav>
+
+    <p></p>
+    <h3>Добавить продукт</h3>
+    <form novalidate ng-submit="createProduct()">
+        <input class="form-control" type="text"  placeholder="Название" required ng-model="Product.title">
+        <p></p>
+        <input class="form-control" type="number" placeholder="Цена" required ng-model="Product.cost">
+        <p></p>
+        <button type="submit" class="btn btn-primary">Добавить продукт</button>
+    </form>
+
+    <div class="row">
+        <div class="col">
+            <h5>Фильтр</h5>
+            <form novalidate ng-submit="loadProducts()">
+                <p> min: <input class="form-control" type="text" id="filterMinPrice" ng-model="filter.min"></p>
+                <p> max: <input class="form-control" type="text" id="filterMaxPrice" ng-model="filter.max"></p>
+                <p> name: <input class="form-control" type="text" id="filterTitle" ng-model="filter.title"></p>
+                <p><button class="btn btn-primary" type="submit">Фильтровать</button> </p>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
 
 </div>
