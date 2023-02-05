@@ -18,12 +18,40 @@ angular.module('market').controller('storeController',function ($scope, $http, $
     }
 
 
+    $scope.deleteProduct = function (productId){
+        $http.delete(contextPath + "/products/" + productId)
+            .then(function (response){
+                $scope.loadProducts();
+            });
+    }
+
     $scope.addProductOnBin = function (id){
         $http.get(cartContextPath + "v1/cart/add/" + id)
             .then(function (response){
             })
     };
 
+    $scope.createProduct = function (title, price){
+        console.log('create');
+        $http({
+            url: contextPath + "/products",
+            method: 'POST',
+            data: $scope.Product
+        }).then(function (response){
+            if(response.data.cost <= 0){
+                $scope.msg = "Price could not be less or equal 0!";
+            }
+            else if (response.data.title){
+                $scope.msg = "";
+            }
+            else {
+                $scope.msg = "Product name could not be empty!";
+            }
+
+            $scope.loadProducts();
+
+        });
+    }
 
     $scope.loadProducts();
 })

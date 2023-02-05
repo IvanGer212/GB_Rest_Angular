@@ -17,6 +17,7 @@ angular.module('market').controller('userController',function ($scope, $http, $l
     }
 
     $scope.createUser = function (userName, surname, password, email, phone, roles) {
+        console.log($scope.User);
         $http({
             url: contextPath + "/users",
             method: 'POST',
@@ -26,5 +27,13 @@ angular.module('market').controller('userController',function ($scope, $http, $l
         });
     }
 
+    // $scope.loadRoles = function (){
+    //     $http.get('http://localhost:8080/app/api/v1/users/roles')
+    //         .then(function (response){
+    //             $scope.Roles = response.data.content;
+    //         });
+    // };
+
+    //$scope.loadRoles();
     $scope.loadUsers();
 })

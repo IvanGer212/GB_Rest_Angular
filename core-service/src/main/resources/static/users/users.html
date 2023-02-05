@@ -39,7 +39,13 @@
         <p></p>
         <input class="form-control" type="text" placeholder="Номер телефона" required ng-model="User.phone">
         <p></p>
-        <input class="form-control" type="text" placeholder="уровень доступа" required ng-model="User.roles">
+        <select class="form-select" aria-label="уровень доступа" ng-model="User.roles">
+<!--            <option ng-value="option.value" ng-repeat=" r in Roles">-->
+<!--                {{r}}-->
+<!--            </option>-->
+            <option value="user">user</option>
+            <option value="admin">admin</option>
+        </select>
         <p></p>
         <button type="submit" class="btn btn-primary">Добавить пользователя</button>
     </form>

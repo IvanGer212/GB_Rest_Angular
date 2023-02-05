@@ -17,8 +17,7 @@
            <td>{{p.title}}</td>
            <td>{{p.cost}}</td>
            <td>
-<!--              <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Удалить</button>-->
-              <button class="btn btn-primary" ng-click="addProductOnBin(p.id)">В корзину</button>
+              <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Удалить</button>
            </td>
         </tr>
         </tbody>
@@ -33,6 +32,15 @@
     </nav>
 
     <p></p>
+    <h3>Добавить продукт</h3>
+    <form novalidate ng-submit="createProduct()">
+        <input class="form-control" type="text"  placeholder="Название" required ng-model="Product.title">
+        <p></p>
+        <input class="form-control" type="number" placeholder="Цена" required ng-model="Product.cost">
+        <p></p>
+        <button type="submit" class="btn btn-primary">Добавить продукт</button>
+    </form>
+
     <div class="row">
         <div class="col">
             <h5>Фильтр</h5>

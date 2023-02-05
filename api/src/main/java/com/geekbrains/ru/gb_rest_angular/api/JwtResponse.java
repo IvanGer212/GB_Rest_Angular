@@ -2,14 +2,23 @@ package com.geekbrains.ru.gb_rest_angular.api;
 
 
 public class JwtResponse {
+    private Boolean isAdmin;
     private String token;
+    private String username;
 
-    public JwtResponse(String token, String username) {
+    public JwtResponse(String token, String username, Boolean isAdmin) {
         this.token = token;
         this.username = username;
+        this.isAdmin = isAdmin;
     }
 
-    private String username;
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
+    }
 
     public String getToken() {
         return token;

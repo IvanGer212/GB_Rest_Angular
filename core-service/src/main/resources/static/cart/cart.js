@@ -9,22 +9,18 @@ angular.module('market').controller('cartController',function ($scope, $http, $l
     }
 
     $scope.deleteProductOnBin = function (productId){
-        console.log('delete');
         $http.get(contextPath + "v1/cart/delete/"+productId).then(function (response){
             $scope.loadProductsOnBin();
         });
     };
 
     $scope.clearCart = function (){
-        console.log('clear');
         $http.get(contextPath + "v1/cart/clear").then(function (response){
             $scope.loadProductsOnBin();
         });
     };
 
     $scope.changeScore = function (id, mark) {
-        console.log(id);
-        console.log(mark);
         $http({
             url: contextPath + "v1/cart/change_score",
             method: 'GET',
@@ -38,7 +34,6 @@ angular.module('market').controller('cartController',function ($scope, $http, $l
     }
 
     $scope.createOrder = function (cost){
-        console.log(cost);
         let username;
         let loged = $scope.isUserLoggedIn;
         if (loged()){

@@ -14,7 +14,7 @@ public class RoleDto {
 
     private Long id;
     private String name;
-    private Collection<User> users;
+   // private Collection<User> users;
 
     public Long getId() {
         return id;
@@ -32,11 +32,11 @@ public class RoleDto {
         this.name = name;
     }
 
-    public Collection<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Collection<User> users) {
-        this.users = users;
-    }
+//    public Collection<User> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(Collection<User> users) {
+//        this.users = users;
+//    }
 }

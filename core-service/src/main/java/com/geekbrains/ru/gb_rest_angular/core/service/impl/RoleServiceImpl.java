@@ -6,6 +6,8 @@ import com.geekbrains.ru.gb_rest_angular.core.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
@@ -14,5 +16,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role findRoleByName(String name) {
         return roleRepository.findByName(name);
+    }
+
+    @Override
+    public List<Role> findAllRoles(){
+        return roleRepository.findAll();
     }
 }

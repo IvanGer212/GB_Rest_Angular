@@ -1,9 +1,11 @@
 package com.geekbrains.ru.gb_rest_angular.core.controller;
 
 import com.geekbrains.ru.gb_rest_angular.core.converter.UserConverter;
+import com.geekbrains.ru.gb_rest_angular.core.domain.Role;
 import com.geekbrains.ru.gb_rest_angular.core.domain.User;
 import com.geekbrains.ru.gb_rest_angular.core.dto.UserDto;
 import com.geekbrains.ru.gb_rest_angular.core.dto.UserDtoRegistr;
+import com.geekbrains.ru.gb_rest_angular.core.service.RoleService;
 import com.geekbrains.ru.gb_rest_angular.core.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 public class UserController {
     private final UserService userService;
     private final UserConverter userConverter;
+    private final RoleService roleService;
 
     @GetMapping
     public List<UserDto> getUsers () {
@@ -25,6 +28,10 @@ public class UserController {
         return userDtoList;
     }
 
+    @GetMapping("/roles")
+    public List<Role> getRoles(){
+        return roleService.findAllRoles();
+    }
 
 //    @GetMapping("/{id}")
 //    @ResponseBody
@@ -44,6 +51,13 @@ public class UserController {
         //productValidator.validate(newProductDto);
         User user = userConverter.dtoRegistrToEntity(newUserDto);
         User user1 = userService.addNewUser(user);
+        return userConverter.entityToDto(user);
+    }
+
+    @PostMapping("/registry")
+    public UserDto registryNewUser(@RequestBody UserDtoRegistr newUserDto){
+        User user = userConverter.dtoRegistrToEntity(newUserDto);
+        userService.addNewUser(user);
         return userConverter.entityToDto(user);
     }
 
