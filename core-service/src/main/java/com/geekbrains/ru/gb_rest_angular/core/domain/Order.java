@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Order {
     private List<OrderItem> items;
 
     @Column(name = "cost")
-    public Integer cost;
+    public BigDecimal cost;
 
     @Column(name = "address")
     private String address;

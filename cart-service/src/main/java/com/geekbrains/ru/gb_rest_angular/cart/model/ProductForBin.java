@@ -5,17 +5,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductForBin {
     private Long id;
     private String title;
-    private Integer pricePerProduct;
+    private BigDecimal pricePerProduct;
     private Integer quantity;
-    private Integer price;
+    private BigDecimal price;
 
     public void countPrice (){
-        price = pricePerProduct * quantity;
+        price = BigDecimal.valueOf(0);
+        price = price.add(pricePerProduct.multiply(BigDecimal.valueOf(quantity)));
     }
 }

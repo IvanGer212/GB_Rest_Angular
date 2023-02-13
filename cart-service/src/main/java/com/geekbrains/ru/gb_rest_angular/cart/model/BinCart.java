@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,17 +17,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BinCart {
     List<ProductForBin> productsForBin = new ArrayList<>();
-    private Integer totalPrice;
+    private BigDecimal totalPrice;
 
     public List<ProductForBin> getProducts (){
         return Collections.unmodifiableList(productsForBin);
     }
 
     private void recalculate (){
-        totalPrice = 0;
+        totalPrice = BigDecimal.ZERO;
         for (ProductForBin product :productsForBin) {
             product.countPrice();
-             totalPrice += product.getPrice();
+             totalPrice = totalPrice.add(product.getPrice());
         }
     }
 
@@ -53,7 +54,8 @@ public class BinCart {
 
     public void clear (){
         productsForBin.clear();
-        recalculate();
+        totalPrice = BigDecimal.ZERO;
+       // recalculate();
     }
 
     public void changeScore(Long id, String mark){

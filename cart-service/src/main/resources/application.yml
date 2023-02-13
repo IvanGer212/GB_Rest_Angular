@@ -8,6 +8,9 @@ integrations:
       write-timeout: 5000
       connect-timeout: 5000
 
+cart-service:
+      cart-prefix: my_market_
+
 
 
 

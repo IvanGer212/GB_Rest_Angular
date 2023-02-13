@@ -18,9 +18,9 @@ public class CartServiceIntegration {
     private final WebClient cartServiceWebClient;
     //private final RestTemplate restTemplate;
 
-    public BinCartDto getCurrentCart(){
+    public BinCartDto getCurrentCart(String username){
         BinCartDto binCartDto = cartServiceWebClient.get()
-                .uri("/api/v1/cart")
+                .uri("/api/v1/cart/0?email="+username)
                 .retrieve()
                 .onStatus(
                         httpStatus -> httpStatus.value() == HttpStatus.NOT_FOUND.value(),
@@ -30,5 +30,14 @@ public class CartServiceIntegration {
                 .block();
         return binCartDto;
      //   return restTemplate.getForObject("http://localhost:8081/app/api/v1/cart/", BinCartDto.class);
+    }
+
+    public void clear(String username){
+        cartServiceWebClient.get()
+                .uri("/api/v1/cart/0/clear")
+                .attribute("email", username)
+                .retrieve()
+                .toBodilessEntity()
+                .block();
     }
 }

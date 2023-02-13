@@ -6,44 +6,52 @@ import com.geekbrains.ru.gb_rest_angular.cart.integrations.ProductServiceIntegra
 import com.geekbrains.ru.gb_rest_angular.cart.model.BinCart;
 import com.geekbrains.ru.gb_rest_angular.cart.service.BinCartService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
 
 @Service
 @RequiredArgsConstructor
 public class BinCartServiceImpl implements BinCartService {
-    private BinCart binCart;
+    private HashMap<String, BinCart> carts;
+    @Value("${cart-service.cart-prefix}")
+    private String cartPrefix;
     private final ProductServiceIntegration productServiceIntegration;
 
     @PostConstruct
     public void init(){
-        binCart = new BinCart();
+        carts = new HashMap<>();
     }
 
     @Override
-    public void addProductOnBin(Long id) {
+    public void addProductOnBin(String uuid, Long id) {
         ProductDto product = productServiceIntegration.getProductById(id); //.orElseThrow(()->new ResourceNotFoundException("Не удалось добавить продукт с id: " + id + " в корзину. Продукт не найден."));
-        binCart.add(product);
+        getCurrentCart(uuid).add(product);
     }
 
     @Override
-    public BinCart findAllProductOnBin() {
-        return binCart;
+    public BinCart getCurrentCart(String uuid) {
+        String targetUuid = cartPrefix + uuid;
+        if (! carts.containsKey(targetUuid)){
+            carts.put(targetUuid, new BinCart());
+        }
+        return carts.get(targetUuid);
     }
 
     @Override
-    public void deleteProductOnBin(Long id) {
-        binCart.delete(id);
+    public void deleteProductOnBin(String uuid, Long id) {
+        getCurrentCart(uuid).delete(id);
     }
 
     @Override
-    public void clearCart(){
-        binCart.clear();
+    public void clearCart(String uuid){
+        getCurrentCart(uuid).clear();
     }
 
     @Override
-    public void changeScore(Long id, String mark) {
-        binCart.changeScore(id, mark);
+    public void changeScore(String uuid, Long id, String mark) {
+        getCurrentCart(uuid).changeScore(id, mark);
     }
 }

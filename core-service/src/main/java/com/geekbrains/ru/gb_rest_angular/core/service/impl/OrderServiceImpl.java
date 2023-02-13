@@ -25,7 +25,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public Order createOrder(User user) {
         Order order = new Order();
-        BinCartDto cart = cartServiceIntegration.getCurrentCart();
+        BinCartDto cart = cartServiceIntegration.getCurrentCart(user.getEmail());
         order.setUser(user);
         order.setCost(cart.getTotalPrice());
         order.setItems(cart.getProductsForBin().stream().map(
@@ -38,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
                     )
         ).collect(Collectors.toList()));
         orderRepository.save(order);
+        cartServiceIntegration.clear(user.getEmail());
         return order;
      }
 

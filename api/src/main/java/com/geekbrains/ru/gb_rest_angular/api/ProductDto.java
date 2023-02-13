@@ -1,15 +1,17 @@
 package com.geekbrains.ru.gb_rest_angular.api;
 
+import java.math.BigDecimal;
+
 public class ProductDto {
 
     private Long id;
     private String title;
-    private Integer cost;
+    private BigDecimal cost;
 
     public ProductDto() {
     }
 
-    public ProductDto(Long id, String title, Integer cost) {
+    public ProductDto(Long id, String title, BigDecimal cost) {
         this.id = id;
         this.title = title;
         this.cost = cost;
@@ -31,11 +33,11 @@ public class ProductDto {
         this.title = title;
     }
 
-    public Integer getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
 
-    public void setCost(Integer cost) {
+    public void setCost(BigDecimal cost) {
         this.cost = cost;
     }
 

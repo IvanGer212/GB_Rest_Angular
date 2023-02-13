@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -24,7 +25,7 @@ public class Product {
     private String title;
 
     @Column(name = "price")
-    private Integer cost;
+    private BigDecimal cost;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -41,7 +42,7 @@ public class Product {
     //TODO сделать зависимость на OrderItem и пометить , cascade = CascadeType.PERSIST, orphanRemoval = true
     //TODO добавить категории товаров
 
-    public Product(Long id, String title, Integer cost) {
+    public Product(Long id, String title, BigDecimal cost) {
         this.id = id;
         this.title = title;
         this.cost = cost;

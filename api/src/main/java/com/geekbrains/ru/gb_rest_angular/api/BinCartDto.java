@@ -1,12 +1,13 @@
 package com.geekbrains.ru.gb_rest_angular.api;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class BinCartDto {
     List<ProductForBinDto> productsForBin = new ArrayList<>();
-    private Integer totalPrice;
+    private BigDecimal totalPrice;
 
 
     public List<ProductForBinDto> getProductsForBin() {
@@ -17,11 +18,11 @@ public class BinCartDto {
         this.productsForBin = productsForBin;
     }
 
-    public Integer getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Integer totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 

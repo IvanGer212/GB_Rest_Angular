@@ -1,30 +1,58 @@
 angular.module('market').controller('cartController',function ($scope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:8081/app/api/';
     const orderContextPath = 'http://localhost:8080/app/api/';
+    let username;
+
+    $scope.getUsername = function (){
+        if ($localStorage.myMarketUser){
+            username = $localStorage.myMarketUser.email;
+        } else {username = null;}
+    }
+
+    $scope.getUsername();
 
     $scope.loadProductsOnBin = function (){
-        $http.get(contextPath + "v1/cart").then(function (response){
+        $http({
+            url: contextPath + "v1/cart/0",
+            method: 'GET',
+            params: {
+                email: username
+            }
+        }).then(function (response){
             $scope.ProductBinList = response.data;
         })
     }
 
     $scope.deleteProductOnBin = function (productId){
-        $http.get(contextPath + "v1/cart/delete/"+productId).then(function (response){
+        $http({
+            url: contextPath + "v1/cart/0/delete/"+productId,
+            method: 'GET',
+            params: {
+                email: username
+            }
+        }).then(function (response){
             $scope.loadProductsOnBin();
         });
     };
 
     $scope.clearCart = function (){
-        $http.get(contextPath + "v1/cart/clear").then(function (response){
+        $http({
+            url: contextPath + "v1/cart/0/clear",
+            method: 'GET',
+            params: {
+                email: username
+            }
+        }).then(function (response){
             $scope.loadProductsOnBin();
         });
     };
 
     $scope.changeScore = function (id, mark) {
         $http({
-            url: contextPath + "v1/cart/change_score",
+            url: contextPath + "v1/cart/0/change_score",
             method: 'GET',
             params: {
+                email: username,
                 id: id,
                 mark: mark
             }

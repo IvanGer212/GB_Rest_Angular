@@ -6,13 +6,13 @@ import com.geekbrains.ru.gb_rest_angular.cart.model.BinCart;
 
 public interface BinCartService {
 
-    void addProductOnBin(Long id);
+    void addProductOnBin(String uuid, Long id);
 
-    BinCart findAllProductOnBin();
+    BinCart getCurrentCart(String uuid);
 
-    void deleteProductOnBin(Long id);
+    void deleteProductOnBin(String uuid, Long id);
 
-    void clearCart();
+    void clearCart(String uuid);
 
-    void changeScore(Long id, String mark);
+    void changeScore(String uuid, Long id, String mark);
 }

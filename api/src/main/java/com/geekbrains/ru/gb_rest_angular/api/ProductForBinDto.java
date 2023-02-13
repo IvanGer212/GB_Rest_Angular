@@ -1,12 +1,14 @@
 package com.geekbrains.ru.gb_rest_angular.api;
 
+import java.math.BigDecimal;
+
 public class ProductForBinDto {
 
     private Long id;
     private String title;
-    private Integer pricePerProduct;
+    private BigDecimal pricePerProduct;
     private Integer quantity;
-    private Integer price;
+    private BigDecimal price;
 
     public Long getId() {
         return id;
@@ -24,11 +26,11 @@ public class ProductForBinDto {
         this.title = title;
     }
 
-    public Integer getPricePerProduct() {
+    public BigDecimal getPricePerProduct() {
         return pricePerProduct;
     }
 
-    public void setPricePerProduct(Integer pricePerProduct) {
+    public void setPricePerProduct(BigDecimal pricePerProduct) {
         this.pricePerProduct = pricePerProduct;
     }
 
@@ -40,11 +42,11 @@ public class ProductForBinDto {
         this.quantity = quantity;
     }
 
-    public Integer getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }

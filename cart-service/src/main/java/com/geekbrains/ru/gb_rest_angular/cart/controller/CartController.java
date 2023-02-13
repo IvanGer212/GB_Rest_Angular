@@ -16,30 +16,44 @@ public class CartController {
     private final CartConverter cartConverter;
     private final BinCartService binCartService;
 
-    @GetMapping
-    public BinCartDto findAllProductFromBin(){
-        BinCart allProductOnBin = binCartService.findAllProductOnBin();
+    @GetMapping("/{uuid}")
+    public BinCartDto findAllProductFromBin(@RequestParam(name = "email", required = false) String username, @PathVariable String uuid){
+        String targetUUid = getCartUuid(username,uuid);
+        BinCart allProductOnBin = binCartService.getCurrentCart(targetUUid);
         BinCartDto binCartDto = cartConverter.modelToDto(allProductOnBin);
         return binCartDto;
     }
 
-    @GetMapping("/add/{id}")
-    public void addProductToBin(@PathVariable Long id){
-        binCartService.addProductOnBin(id);
+    @GetMapping("/{uuid}/add/{id}")
+    public void addProductToBin(@RequestParam(name = "email", required = false) String username, @PathVariable String uuid, @PathVariable Long id){
+        String targetUUid = getCartUuid(username,uuid);
+        binCartService.addProductOnBin(targetUUid, id);
     }
 
-    @GetMapping("/delete/{id}")
-    public void deleteProductOnBin(@PathVariable Long id){
-        binCartService.deleteProductOnBin(id);
+    @GetMapping("/{uuid}/delete/{id}")
+    public void deleteProductOnBin(@RequestParam(name = "email", required = false) String username, @PathVariable String uuid, @PathVariable Long id){
+        String targetUUid = getCartUuid(username,uuid);
+        binCartService.deleteProductOnBin(targetUUid, id);
     }
 
-    @GetMapping("/clear")
-    public void clearCart (){ binCartService.clearCart();}
+    @GetMapping("/{uuid}/clear")
+    public void clearCart (@RequestParam(name = "email", required = false) String username, @PathVariable String uuid){
+        String targetUUid = getCartUuid(username,uuid);
+        binCartService.clearCart(targetUUid);}
 
-    @GetMapping("/change_score")
-    public void changeScore(@RequestParam (name = "id") Long id,
+    @GetMapping("/{uuid}/change_score")
+    public void changeScore(@RequestParam(name = "email", required = false) String username,
+                            @PathVariable String uuid,
+                            @RequestParam (name = "id") Long id,
                             @RequestParam (name = "mark") String mark) {
-        binCartService.changeScore(id, mark);
+        String targetUUid = getCartUuid(username,uuid);
+        binCartService.changeScore(targetUUid, id, mark);
+    }
 
+    private String getCartUuid(String username, String uuid){
+        if (username != null){
+            return username;
+        }
+        else return uuid;
     }
 }

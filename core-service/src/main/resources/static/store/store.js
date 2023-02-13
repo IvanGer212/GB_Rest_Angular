@@ -1,6 +1,16 @@
 angular.module('market').controller('storeController',function ($scope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:8080/app/api/v1';
     const cartContextPath = 'http://localhost:8081/app/api/';
+    let username;
+
+    $scope.getUsername = function (){
+        if ($localStorage.myMarketUser){
+            username = $localStorage.myMarketUser.email;
+        } else {username = null;}
+        console.log(username);
+    }
+
+    $scope.getUsername();
 
     $scope.loadProducts = function(pageIndex){
         $http({
@@ -19,9 +29,15 @@ angular.module('market').controller('storeController',function ($scope, $http, $
 
 
     $scope.addProductOnBin = function (id){
-        $http.get(cartContextPath + "v1/cart/add/" + id)
-            .then(function (response){
-            })
+        $http({
+            url: cartContextPath + "v1/cart/0/add/" + id,
+            method: 'GET',
+            params: {
+                email: username
+            }
+        })
+          .then(function (response){
+          })
     };
 
 
