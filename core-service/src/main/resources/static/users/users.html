@@ -1,4 +1,4 @@
-<div>
+<div class="container text-center">
     <p></p>
     <h3>Пользователи</h3>
     <p></p>
@@ -27,27 +27,32 @@
         </tbody>
     </table>
 
-    <h3>Добавить пользователя</h3>
-    <form novalidate ng-submit="createUser()">
-        <input class="form-control" type="text"  placeholder="Имя" required ng-model="User.userName">
-        <p></p>
-        <input class="form-control" type="text" placeholder="Фамилия" required ng-model="User.surname">
-        <p></p>
-        <input class="form-control" type="password" placeholder="Пароль" required ng-model="User.password">
-        <p></p>
-        <input class="form-control" type="text" placeholder="email" required ng-model="User.email">
-        <p></p>
-        <input class="form-control" type="text" placeholder="Номер телефона" required ng-model="User.phone">
-        <p></p>
-        <select class="form-select" aria-label="уровень доступа" ng-model="User.roles">
-<!--            <option ng-value="option.value" ng-repeat=" r in Roles">-->
-<!--                {{r}}-->
-<!--            </option>-->
-            <option value="user">user</option>
-            <option value="admin">admin</option>
-        </select>
-        <p></p>
-        <button type="submit" class="btn btn-primary">Добавить пользователя</button>
-    </form>
-
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-6">
+            <h3>Добавить пользователя</h3>
+            <form novalidate ng-submit="createUser()">
+                <input class="form-control" type="text"  placeholder="Имя" required ng-model="User.userName">
+                <p></p>
+                <input class="form-control" type="text" placeholder="Фамилия" required ng-model="User.surname">
+                <p></p>
+                <input class="form-control" type="password" placeholder="Пароль" required ng-model="User.password">
+                <p></p>
+                <input class="form-control" type="text" placeholder="email" required ng-model="User.email">
+                <p></p>
+                <input class="form-control" type="text" placeholder="Номер телефона" required ng-model="User.phone">
+                <p></p>
+                <select class="form-select" aria-label="уровень доступа" ng-model="User.roles">
+                    <!--            <option ng-value="option.value" ng-repeat=" r in Roles">-->
+                    <!--                {{r}}-->
+                    <!--            </option>-->
+                    <option value="user">user</option>
+                    <option value="admin">admin</option>
+                </select>
+                <p></p>
+                <button type="submit" class="btn btn-primary">Добавить пользователя</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
 </div>

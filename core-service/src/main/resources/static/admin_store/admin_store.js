@@ -9,7 +9,7 @@ angular.module('market').controller('adminStoreController',function ($scope, $ht
                 p: pageIndex,
                 title: $scope.filter ? $scope.filter.title: null,
                 min_price: $scope.filter ? $scope.filter.min: null,
-                max_price: $scope.filter ? $scope.filter.max: null
+                max_price: $scope.filter ? $scope.filter.max: null,
             }
         }).then(function(response){
             $scope.ProductList = response.data.content;
@@ -25,7 +25,7 @@ angular.module('market').controller('adminStoreController',function ($scope, $ht
     }
 
 
-    $scope.createProduct = function (title, price){
+    $scope.createProduct = function (title, price, category){
         console.log('create');
         $http({
             url: contextPath + "/products",
@@ -46,6 +46,27 @@ angular.module('market').controller('adminStoreController',function ($scope, $ht
 
         });
     }
+
+    $scope.loadCategories = function(){
+        $http.get(contextPath + "/categories").then(function(response){
+            console.log(response.data);
+            $scope.CategoryList = response.data;
+        })
+    }
+
+    $scope.findProductsByCategory = function(id){
+        $http({
+            url: contextPath + "/products/by_category",
+            method: 'GET',
+            params: {id : id}
+        }).then(function(response){
+            console.log(response.data);
+            $scope.ProductListCategory = response.data;
+            $scope.loadProducts();
+        })
+    }
+
+    $scope.loadCategories();
 
     $scope.loadProducts();
 })

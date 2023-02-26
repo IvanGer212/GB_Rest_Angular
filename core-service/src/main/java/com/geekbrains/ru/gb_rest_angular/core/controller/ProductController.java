@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/app/api/v1/products")
 //@AllArgsConstructor
@@ -61,6 +64,13 @@ public class ProductController {
         productValidator.validate(productDto);
         Product product = productService.update(productDto);
         return productConverter.entityToDto(product);
+    }
+
+    @GetMapping("/by_category")
+    public List<ProductDto> getProductsByCategoryId(@RequestParam(name = "id") Long categoryId){
+        List<Product> productsByCategoryId = productService.findProductsByCategoryId(categoryId);
+        List<ProductDto> collect = productsByCategoryId.stream().map(product -> productConverter.entityToDto(product)).collect(Collectors.toList());
+        return collect;
     }
 
 

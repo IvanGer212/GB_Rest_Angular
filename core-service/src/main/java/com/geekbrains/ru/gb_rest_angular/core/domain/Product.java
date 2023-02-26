@@ -42,9 +42,11 @@ public class Product {
     //TODO сделать зависимость на OrderItem и пометить , cascade = CascadeType.PERSIST, orphanRemoval = true
     //TODO добавить категории товаров
 
-    public Product(Long id, String title, BigDecimal cost) {
+
+    public Product(Long id, String title, BigDecimal cost, Category category) {
         this.id = id;
         this.title = title;
         this.cost = cost;
+        this.category = category;
     }
 }

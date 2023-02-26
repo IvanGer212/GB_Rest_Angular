@@ -16,4 +16,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     List<Product> findAllByCostBetween(int min, int max );
 
+    List<Product> findAllByCategory_Id(Long categoryId);
+
 }

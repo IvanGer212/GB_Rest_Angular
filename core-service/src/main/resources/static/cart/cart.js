@@ -2,6 +2,11 @@ angular.module('market').controller('cartController',function ($scope, $http, $l
     const contextPath = 'http://localhost:8081/app/api/';
     const orderContextPath = 'http://localhost:8080/app/api/';
     let username;
+    let uuid;
+
+    if ($localStorage.myMarketGuestCartId){
+        uuid = $localStorage.myMarketGuestCartId;
+    }
 
     $scope.getUsername = function (){
         if ($localStorage.myMarketUser){
@@ -13,7 +18,7 @@ angular.module('market').controller('cartController',function ($scope, $http, $l
 
     $scope.loadProductsOnBin = function (){
         $http({
-            url: contextPath + "v1/cart/0",
+            url: contextPath + "v1/cart/" + uuid,
             method: 'GET',
             params: {
                 email: username
@@ -25,7 +30,7 @@ angular.module('market').controller('cartController',function ($scope, $http, $l
 
     $scope.deleteProductOnBin = function (productId){
         $http({
-            url: contextPath + "v1/cart/0/delete/"+productId,
+            url: contextPath + "v1/cart/" + uuid + "/delete/"+productId,
             method: 'GET',
             params: {
                 email: username
@@ -37,7 +42,7 @@ angular.module('market').controller('cartController',function ($scope, $http, $l
 
     $scope.clearCart = function (){
         $http({
-            url: contextPath + "v1/cart/0/clear",
+            url: contextPath + "v1/cart/" + uuid + "/clear",
             method: 'GET',
             params: {
                 email: username
@@ -49,7 +54,7 @@ angular.module('market').controller('cartController',function ($scope, $http, $l
 
     $scope.changeScore = function (id, mark) {
         $http({
-            url: contextPath + "v1/cart/0/change_score",
+            url: contextPath + "v1/cart/" + uuid + "/change_score",
             method: 'GET',
             params: {
                 email: username,

@@ -39,4 +39,9 @@ public class Category {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    public Category(Long id, String title, Long parentId) {
+        this.id = id;
+        this.title = title;
+        this.parentId = parentId;
+    }
 }

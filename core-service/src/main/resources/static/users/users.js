@@ -3,13 +3,13 @@ angular.module('market').controller('userController',function ($scope, $http, $l
 
     $scope.loadUsers = function () {
         $http.get(contextPath + "/users").then(function (response) {
-            console.log(response.data);
+            //console.log(response.data);
             $scope.UserList = response.data;
         })
     }
 
     $scope.deleteUser = function (userId) {
-        console.log('delete user')
+       // console.log('delete user')
         $http.delete(contextPath + '/users/' + userId)
             .then(function (response) {
                 $scope.loadUsers();
@@ -17,7 +17,7 @@ angular.module('market').controller('userController',function ($scope, $http, $l
     }
 
     $scope.createUser = function (userName, surname, password, email, phone, roles) {
-        console.log($scope.User);
+      //  console.log($scope.User);
         $http({
             url: contextPath + "/users",
             method: 'POST',

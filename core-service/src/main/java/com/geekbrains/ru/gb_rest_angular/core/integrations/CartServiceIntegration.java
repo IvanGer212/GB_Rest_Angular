@@ -34,8 +34,7 @@ public class CartServiceIntegration {
 
     public void clear(String username){
         cartServiceWebClient.get()
-                .uri("/api/v1/cart/0/clear")
-                .attribute("email", username)
+                .uri("/api/v1/cart/0/clear?email="+username)
                 .retrieve()
                 .toBodilessEntity()
                 .block();

@@ -2,6 +2,11 @@ angular.module('market').controller('storeController',function ($scope, $http, $
     const contextPath = 'http://localhost:8080/app/api/v1';
     const cartContextPath = 'http://localhost:8081/app/api/';
     let username;
+    let uuid;
+
+    if ($localStorage.myMarketGuestCartId){
+        uuid = $localStorage.myMarketGuestCartId;
+    }
 
     $scope.getUsername = function (){
         if ($localStorage.myMarketUser){
@@ -30,7 +35,7 @@ angular.module('market').controller('storeController',function ($scope, $http, $
 
     $scope.addProductOnBin = function (id){
         $http({
-            url: cartContextPath + "v1/cart/0/add/" + id,
+            url: cartContextPath + "v1/cart/" + uuid + "/add/" + id,
             method: 'GET',
             params: {
                 email: username
@@ -41,5 +46,9 @@ angular.module('market').controller('storeController',function ($scope, $http, $
     };
 
 
+
+
+
     $scope.loadProducts();
+
 })

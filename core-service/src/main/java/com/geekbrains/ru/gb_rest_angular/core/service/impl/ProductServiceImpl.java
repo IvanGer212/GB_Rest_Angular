@@ -82,4 +82,9 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
+    @Override
+    public List<Product> findProductsByCategoryId(Long categoryId) {
+        return productRepository.findAllByCategory_Id(categoryId);
+    }
+
 }

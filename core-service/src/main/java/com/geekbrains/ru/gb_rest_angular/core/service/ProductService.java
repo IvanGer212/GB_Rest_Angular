@@ -23,4 +23,6 @@ public interface ProductService {
     List<Product> findAllByCostBetween(int min, int max );
 
     Product update (ProductDto productDto);
+
+    List<Product> findProductsByCategoryId(Long categoryId);
 }
