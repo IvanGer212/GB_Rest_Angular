@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface ProductService {
 
-    Page<Product> find (Integer minPrice, Integer maxPrice, String title, Integer page);
+    Page<Product> find (Integer minPrice, Integer maxPrice, String title, Integer page, Long categoryId);
     List<Product> getAllProduct();
 
     Optional<Product> findProductById(Long id);

@@ -30,6 +30,10 @@
                 templateUrl:'admin_store/admin_store.html',
                 controller: 'adminStoreController'
             })
+            .when('/orders',{
+                templateUrl: 'order/order.html',
+                controller: 'orderController'
+            })
             // .otherwise({
             //     redirectTo: '/'
             // });

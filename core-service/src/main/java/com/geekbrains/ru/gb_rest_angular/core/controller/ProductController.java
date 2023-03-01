@@ -28,11 +28,14 @@ public class ProductController {
     public Page<ProductDto> getProducts(@RequestParam (name="p", defaultValue = "1") Integer page,
                                         @RequestParam (name = "min_price", required = false) Integer minPrice,
                                         @RequestParam (name = "max_price", required = false) Integer maxPrice,
-                                        @RequestParam (name = "title", required = false) String title) {
+                                        @RequestParam (name = "title", required = false) String title,
+                                        @RequestParam (name = "category", required = false) Long categoryId) {
         if (page<1){
             page = 1;
         }
-        Page<ProductDto> products = productService.find(minPrice,maxPrice,title,page).map(p-> productConverter.entityToDto(p));
+
+        Page<Product> products1 = productService.find(minPrice, maxPrice, title, page, categoryId);
+        Page<ProductDto> products = products1.map(p-> productConverter.entityToDto(p));
         return products;
     }
 

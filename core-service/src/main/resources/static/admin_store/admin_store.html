@@ -1,13 +1,13 @@
 <div class="row">
     <div class="col text-center"><h6>Категории</h6>
-        <table class="table table-hover">
-            <thead>
-            <tr>
+        <table class="table table-hover text-left">
+<!--            <thead>-->
+<!--            <tr>-->
 <!--                <th scope="col">ID</th>-->
-                <th scope="col">Название</th>
+<!--                <th scope="col">Название</th>-->
 <!--                <th scope="col">ID родителя</th>-->
-            </tr>
-            </thead>
+<!--            </tr>-->
+<!--            </thead>-->
             <tbody>
             <tr ng-repeat="c in CategoryList">
 <!--                <td>{{c.id}}</td>-->
@@ -48,7 +48,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="p in ProductListCategory">
+            <tr ng-repeat="p in ProductList">
                 <td>{{p.id}}</td>
                 <td>{{p.title}}</td>
                 <td>{{p.cost}}</td>
@@ -74,7 +74,10 @@
             <p> min: <input class="form-control" type="text" id="filterMinPrice" ng-model="filter.min"></p>
             <p> max: <input class="form-control" type="text" id="filterMaxPrice" ng-model="filter.max"></p>
             <p> name: <input class="form-control" type="text" id="filterTitle" ng-model="filter.title"></p>
-            <p><button class="btn btn-primary" type="submit">Фильтровать</button> </p>
+            <p>
+                <button class="btn btn-primary" type="submit">Фильтровать</button>
+                <button class="btn btn-danger" type="reset" ng-click="loadProducts()">Сбросить фильтр</button>
+            </p>
         </form>
     </div>
 </div>
@@ -90,17 +93,10 @@
                 <p></p>
                 <input class="form-control" type="number" placeholder="Цена" required ng-model="Product.cost">
                 <p></p>
-                <select class="form-select" aria-label="Default select example" >
+                <select class="form-select" ng-model="Product.category" aria-label="Default select example" >
                     <option selected>Выберите категорию</option>
-                    <tr ng-repeat="c in CategoryList">
-                        <td>
-                            <option value="{{c.id}}">{{c.title}}</option>
-                        </td>
-                    </tr>
-                    <!--            <option value="2">Two</option>-->
-                    <!--            <option value="3">Three</option>-->
+                        <option ng-repeat="c in CategoryList" value="{{c.id}}">{{c.title}}</option>
                 </select>
-                <!--        <input class="form-control" type="number" placeholder="Категория продукта" required ng-model="Product.category">-->
                 <p></p>
                 <button type="submit" class="btn btn-primary">Добавить продукт</button>
             </form>

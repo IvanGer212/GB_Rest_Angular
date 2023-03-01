@@ -1,10 +1,13 @@
 package com.geekbrains.ru.gb_rest_angular.core.service.impl;
 
 import com.geekbrains.ru.gb_rest_angular.api.BinCartDto;
+import com.geekbrains.ru.gb_rest_angular.core.converter.OrderItemConverter;
 import com.geekbrains.ru.gb_rest_angular.core.domain.Order;
 import com.geekbrains.ru.gb_rest_angular.core.domain.OrderItem;
 import com.geekbrains.ru.gb_rest_angular.core.domain.User;
+import com.geekbrains.ru.gb_rest_angular.core.dto.OrderItemDto;
 import com.geekbrains.ru.gb_rest_angular.core.integrations.CartServiceIntegration;
+import com.geekbrains.ru.gb_rest_angular.core.service.OrderItemsService;
 import com.geekbrains.ru.gb_rest_angular.core.service.OrderService;
 import com.geekbrains.ru.gb_rest_angular.core.service.ProductService;
 import com.geekbrains.ru.gb_rest_angular.core.repository.OrderRepository;
@@ -12,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,13 +24,15 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final CartServiceIntegration cartServiceIntegration;
     private final ProductService productService;
+    private final OrderItemsService orderItemsService;
+    private final OrderItemConverter orderItemConverter;
 
     @Override
     @Transactional
     public Order createOrder(User user) {
         Order order = new Order();
         BinCartDto cart = cartServiceIntegration.getCurrentCart(user.getEmail());
-        order.setUser(user);
+        order.setUsername(user.getEmail());
         order.setCost(cart.getTotalPrice());
         order.setItems(cart.getProductsForBin().stream().map(
                     cartItem-> new OrderItem(
@@ -40,6 +46,18 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
         cartServiceIntegration.clear(user.getEmail());
         return order;
+     }
+
+     @Override
+    public List<Order> getOrders(String username){
+        return orderRepository.findAllByUsername(username);
+     }
+
+     @Override
+     public List<OrderItemDto> findItemsByOrderId (Long orderId){
+         List<OrderItem> allItemsByOrderId = orderItemsService.findAllItemsByOrderId(orderId);
+         List<OrderItemDto> collect = allItemsByOrderId.stream().map(orderItemConverter::entityToDto).collect(Collectors.toList());
+         return collect;
      }
 
 }

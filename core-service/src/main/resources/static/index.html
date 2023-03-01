@@ -28,6 +28,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#!/cart">Корзина</a>
                         </li>
+                        <li class="nav-item" ng-show="isUserLoggedIn()">
+                            <a class="nav-link" href="#!/orders">Заказы</a>
+                        </li>
                         <li class="nav-item" ng-show="isAdminLogged()">
                             <a class="nav-link" href="#!/users">Пользователи</a>
                         </li>
@@ -73,6 +76,7 @@
         <script src="users/users.js"></script>
         <script src="registry/registry.js"></script>
         <script src="admin_store/admin_store.js"></script>
+        <script src="order/order.js"></script>
 <!--    </div>-->
 <!--    <div class="col"></div>-->
 

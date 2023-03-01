@@ -7,14 +7,18 @@ import com.geekbrains.ru.gb_rest_angular.core.domain.Product;
 import com.geekbrains.ru.gb_rest_angular.core.repository.ProductRepository;
 import com.geekbrains.ru.gb_rest_angular.core.repository.specifications.ProductSpecification;
 import com.geekbrains.ru.gb_rest_angular.core.service.ProductService;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -26,7 +30,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> find (Integer minPrice, Integer maxPrice, String title, Integer page){
+    public Page<Product> find (Integer minPrice, Integer maxPrice, String title, Integer page, Long categoryId){
+        Page<Product> page1;
         Specification<Product> spec = Specification.where(null);
         if (minPrice != null) {
             spec = spec.and(ProductSpecification.priceGreaterThanOrEqualsThan(minPrice));
@@ -37,7 +42,17 @@ public class ProductServiceImpl implements ProductService {
         if (title != null) {
             spec = spec.and(ProductSpecification.titleLike(title));
         }
-        return productRepository.findAll(spec, PageRequest.of(page-1, 5));
+
+        if (categoryId != null){
+            List<Product> all = productRepository.findAll(spec);
+
+            List<Product> collect = all.stream().filter(product -> product.getCategory().getId().equals(categoryId)).collect(Collectors.toList());
+
+            page1 = new PageImpl<Product>(collect, PageRequest.of(page-1,5), all.size());
+
+        }
+            else {page1 = productRepository.findAll(spec, PageRequest.of(page-1, 5));}
+        return page1; //productRepository.findAll(spec, PageRequest.of(page-1, 5));
     }
     @Override
     public List<Product> getAllProduct() {

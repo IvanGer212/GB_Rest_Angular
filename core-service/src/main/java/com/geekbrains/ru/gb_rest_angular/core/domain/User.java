@@ -35,8 +35,8 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<Order> order;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
+//    private List<Order> order;
 
     @ManyToMany
     @JoinTable(name = "user_role",
