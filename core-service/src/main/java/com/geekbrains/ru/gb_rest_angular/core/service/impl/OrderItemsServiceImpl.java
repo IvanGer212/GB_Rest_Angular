@@ -1,6 +1,5 @@
 package com.geekbrains.ru.gb_rest_angular.core.service.impl;
 
-import com.geekbrains.ru.gb_rest_angular.core.converter.OrderItemConverter;
 import com.geekbrains.ru.gb_rest_angular.core.domain.OrderItem;
 import com.geekbrains.ru.gb_rest_angular.core.repository.OrderItemsRepository;
 import com.geekbrains.ru.gb_rest_angular.core.service.OrderItemsService;

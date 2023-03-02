@@ -1,10 +1,7 @@
 package com.geekbrains.ru.gb_rest_angular.core.controller;
 
 import com.geekbrains.ru.gb_rest_angular.core.converter.OrderConverter;
-import com.geekbrains.ru.gb_rest_angular.core.domain.Order;
-import com.geekbrains.ru.gb_rest_angular.core.domain.OrderItem;
 import com.geekbrains.ru.gb_rest_angular.core.domain.User;
-import com.geekbrains.ru.gb_rest_angular.core.dto.OrderDto;
 import com.geekbrains.ru.gb_rest_angular.core.dto.OrderDtoResponse;
 import com.geekbrains.ru.gb_rest_angular.core.dto.OrderItemDto;
 import com.geekbrains.ru.gb_rest_angular.core.service.OrderService;
@@ -38,9 +35,7 @@ public class OrderController {
     @GetMapping
     public List<OrderDtoResponse> getOrders(Principal principal){
         String email = userService.findUserByEmail(principal.getName()).get().getEmail();
-        List<Order> orders = orderService.getOrders(email);
-        List<OrderDtoResponse> collect = orders.stream().map(order -> orderConverter.entityToDtoResponse(order)).collect(Collectors.toList());
-        return collect;
+        return orderService.getOrders(email).stream().map(orderConverter::entityToDtoResponse).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")

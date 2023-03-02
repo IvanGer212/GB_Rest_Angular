@@ -29,9 +29,7 @@ public class CartController {
     @GetMapping("/{uuid}")
     public BinCartDto findAllProductFromBin(@RequestParam(name = "email", required = false) String username, @PathVariable String uuid){
         String targetUUid = getCartUuid(username,uuid);
-        BinCart allProductOnBin = binCartService.getCurrentCart(targetUUid);
-        BinCartDto binCartDto = cartConverter.modelToDto(allProductOnBin);
-        return binCartDto;
+        return cartConverter.modelToDto(binCartService.getCurrentCart(targetUUid));
     }
 
     @GetMapping("/{uuid}/add/{id}")

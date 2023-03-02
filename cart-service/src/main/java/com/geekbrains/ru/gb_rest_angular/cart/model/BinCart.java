@@ -14,14 +14,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Data
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class BinCart {
     List<ProductForBin> productsForBin = new ArrayList<>();
     private BigDecimal totalPrice;
 
-    public List<ProductForBin> getProducts (){
-        return Collections.unmodifiableList(productsForBin);
-    }
+//    public List<ProductForBin> getProducts (){
+//        return Collections.unmodifiableList(productsForBin);
+//    }
 
     private void recalculate (){
         totalPrice = BigDecimal.ZERO;

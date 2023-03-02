@@ -14,7 +14,7 @@ public class CartConverter {
 
     public BinCartDto modelToDto (BinCart binCart){
         BinCartDto binCartDto = new BinCartDto();
-        binCartDto.setProductsForBin(binCart.getProducts().stream().map(productForBinConverter::modelToDto).collect(Collectors.toList()));
+        binCartDto.setProductsForBin(binCart.getProductsForBin().stream().map(productForBinConverter::modelToDto).collect(Collectors.toList()));
         binCartDto.setTotalPrice(binCart.getTotalPrice());
         return binCartDto;
     }
