@@ -2,6 +2,7 @@ package com.geekbrains.ru.gb_rest_angular.core.config;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,6 +26,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().disable()
                 .authorizeRequests()
                 .antMatchers("/app/api/v1/order").authenticated()
+                .antMatchers(HttpMethod.DELETE,"/app/api/v1/products/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/app/api/v1/products").hasRole("ADMIN")
+                .antMatchers("/app/api/v1/users").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/app/api/v1/users/*").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

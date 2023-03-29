@@ -4,6 +4,7 @@ import com.geekbrains.ru.gb_rest_angular.api.ProductDto;
 import com.geekbrains.ru.gb_rest_angular.api.ResourceNotFoundException;
 import com.geekbrains.ru.gb_rest_angular.core.converter.ProductConverter;
 import com.geekbrains.ru.gb_rest_angular.core.domain.Product;
+import com.geekbrains.ru.gb_rest_angular.core.dto.PageDto;
 import com.geekbrains.ru.gb_rest_angular.core.service.ProductService;
 import com.geekbrains.ru.gb_rest_angular.core.validators.ProductValidator;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class ProductController {
 
 
     @GetMapping
-    public Page<ProductDto> getProducts(@RequestParam (name="p", defaultValue = "1") Integer page,
+    public PageDto<ProductDto> getProducts(@RequestParam (name="p", defaultValue = "1") Integer page,
                                         @RequestParam (name = "min_price", required = false) Integer minPrice,
                                         @RequestParam (name = "max_price", required = false) Integer maxPrice,
                                         @RequestParam (name = "title", required = false) String title,
@@ -36,7 +37,11 @@ public class ProductController {
 
         Page<Product> products1 = productService.find(minPrice, maxPrice, title, page, categoryId);
         Page<ProductDto> products = products1.map(p-> productConverter.entityToDto(p));
-        return products;
+        PageDto<ProductDto> out = new PageDto<>();
+        out.setPage(products.getNumber());
+        out.setItems(products.getContent());
+        out.setTotalPages(products.getTotalPages());
+        return out;
     }
 
 
@@ -78,5 +83,4 @@ public class ProductController {
 
 
 }
-
 

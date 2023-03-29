@@ -6,10 +6,10 @@
 
     function config($routeProvider) {
         $routeProvider
-            // .when('/', {
-            //     templateUrl: 'welcome/welcome.html',
-            //     controller: 'welcomeController'
-            // })
+            .when('/', {
+                templateUrl: 'welcome/welcome.html',
+                controller: 'welcomeController'
+            })
             .when('/store', {
                 templateUrl: 'store/store.html',
                 controller: 'storeController'
@@ -34,9 +34,9 @@
                 templateUrl: 'order/order.html',
                 controller: 'orderController'
             })
-            // .otherwise({
-            //     redirectTo: '/'
-            // });
+            .otherwise({
+                redirectTo: '/'
+            });
     }
 
     function run($rootScope, $http, $localStorage) {
@@ -104,7 +104,7 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
         $scope.user = null;
         usernameShow = '';
         $scope.usernameShow = usernameShow;
-       // $location.path('/');
+       $location.path('/');
     };
 
     $scope.clearUser = function () {

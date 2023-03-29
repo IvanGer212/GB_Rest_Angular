@@ -1,7 +1,16 @@
 angular.module('market').controller('adminStoreController',function ($scope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:8080/app/api/v1';
-
+    let username;
     let categoryId;
+
+    $scope.getUsername = function (){
+        if ($localStorage.myMarketUser){
+            username = $localStorage.myMarketUser.email;
+        } else {username = null;}
+        console.log(username);
+    }
+
+    $scope.getUsername();
 
     $scope.loadProducts = function(pageIndex){
         $http({
@@ -15,7 +24,8 @@ angular.module('market').controller('adminStoreController',function ($scope, $ht
                 category: categoryId
             }
         }).then(function(response){
-            $scope.ProductList = response.data.content;
+            $scope.ProductsPage = response.data;
+            $scope.generatePagesList($scope.ProductsPage.totalPages);
         })
     }
 
@@ -61,6 +71,14 @@ angular.module('market').controller('adminStoreController',function ($scope, $ht
         categoryId = id;
         $scope.loadProducts();
     }
+
+    $scope.generatePagesList = function (totalPage){
+        $scope.pagesList = [];
+        for (let i = 0; i < totalPage; i++){
+            $scope.pagesList.push(i+1);
+        }
+    }
+
     // $scope.findProductsByCategory = function(id){
     //     $http({
     //         url: contextPath + "/products/by_category",

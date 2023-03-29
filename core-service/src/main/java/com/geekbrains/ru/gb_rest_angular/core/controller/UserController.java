@@ -7,6 +7,7 @@ import com.geekbrains.ru.gb_rest_angular.core.dto.UserDto;
 import com.geekbrains.ru.gb_rest_angular.core.dto.UserDtoRegistr;
 import com.geekbrains.ru.gb_rest_angular.core.service.RoleService;
 import com.geekbrains.ru.gb_rest_angular.core.service.UserService;
+import com.geekbrains.ru.gb_rest_angular.core.validators.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ public class UserController {
     private final UserService userService;
     private final UserConverter userConverter;
     private final RoleService roleService;
+    private final UserValidator userValidator;
 
     @GetMapping
     public List<UserDto> getUsers () {
@@ -48,7 +50,7 @@ public class UserController {
 
     @PostMapping
     public UserDto addUser(@RequestBody UserDtoRegistr newUserDto) {
-        //productValidator.validate(newProductDto);
+        userValidator.validate(newUserDto);
         User user = userConverter.dtoRegistrToEntity(newUserDto);
         User user1 = userService.addNewUser(user);
         return userConverter.entityToDto(user);
@@ -56,6 +58,7 @@ public class UserController {
 
     @PostMapping("/registry")
     public UserDto registryNewUser(@RequestBody UserDtoRegistr newUserDto){
+        userValidator.validate(newUserDto);
         User user = userConverter.dtoRegistrToEntity(newUserDto);
         userService.addNewUser(user);
         return userConverter.entityToDto(user);

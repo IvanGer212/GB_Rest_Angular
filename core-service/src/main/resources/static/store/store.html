@@ -1,6 +1,17 @@
 <!--<div class="container text-center">-->
     <div class="row">
-        <div class="col"></div>
+        <div class="col text-center">
+            <h6>Категории</h6>
+            <table class="table table-hover text-left">
+                <tbody>
+                <tr ng-repeat="c in CategoryList">
+                    <td>
+                        <a href="http://localhost:8080/index.html#!/store" class="link-primary" ng-click="findProductsByCategory(c.id)">{{c.title}}</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
         <div class="col-6">
             <p></p>
             <h3 class="text-center">Каталог товаров</h3>
@@ -11,14 +22,16 @@
                     <th scope="col">ID</th>
                     <th scope="col">Название</th>
                     <th scope="col">Цена</th>
+                    <th scope="col">Категория</th>
                     <th scope="col">Действие</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="p in ProductList">
+                <tr ng-repeat="p in ProductsPage.items">
                     <td>{{p.id}}</td>
                     <td>{{p.title}}</td>
                     <td>{{p.cost}}</td>
+                    <td>{{p.category}}</td>
                     <td>
                         <!--              <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Удалить</button>-->
                         <button class="btn btn-primary" ng-click="addProductOnBin(p.id)">В корзину</button>
@@ -28,9 +41,9 @@
             </table>
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                    <li class="page-item"><a class="page-link" ng-click="loadProducts(1)" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" ng-click="loadProducts(2)" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" ng-click="loadProducts(3)" href="#">3</a></li>
+                    <li class="page-item" ng-repeat="pageIndex in pagesList">
+                        <button class="page-link" ng-click="loadProducts(pageIndex)">{{pageIndex}}</button>
+                    </li>
                 </ul>
             </nav>
         </div>

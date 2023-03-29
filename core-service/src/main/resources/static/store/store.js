@@ -3,6 +3,13 @@ angular.module('market').controller('storeController',function ($scope, $http, $
     const cartContextPath = 'http://localhost:8081/app/api/';
     let username;
     let uuid;
+    let categoryId;
+    let savePage;
+
+    $scope.savePageNum = function (page){
+        console.log(savePage);
+        savePage = page;
+    }
 
     if ($localStorage.myMarketGuestCartId){
         uuid = $localStorage.myMarketGuestCartId;
@@ -25,10 +32,12 @@ angular.module('market').controller('storeController',function ($scope, $http, $
                 p: pageIndex,
                 title: $scope.filter ? $scope.filter.title: null,
                 min_price: $scope.filter ? $scope.filter.min: null,
-                max_price: $scope.filter ? $scope.filter.max: null
+                max_price: $scope.filter ? $scope.filter.max: null,
+                category: categoryId
             }
         }).then(function(response){
-            $scope.ProductList = response.data.content;
+            $scope.ProductsPage = response.data;
+            $scope.generatePagesList($scope.ProductsPage.totalPages);
         })
     }
 
@@ -45,9 +54,26 @@ angular.module('market').controller('storeController',function ($scope, $http, $
           })
     };
 
+    $scope.loadCategoriesStore = function() {
+        $http.get(contextPath + "/categories").then(function (response) {
+            //console.log(response.data);
+            $scope.CategoryList = response.data;
+        })
+    }
 
+    $scope.findProductsByCategory = function(id){
+        categoryId = id;
+        $scope.loadProducts();
+    }
 
+    $scope.generatePagesList = function (totalPage){
+        $scope.pagesList = [];
+        for (let i = 0; i < totalPage; i++){
+            $scope.pagesList.push(i+1);
+        }
+    }
 
+    $scope.loadCategoriesStore();
 
     $scope.loadProducts();
 

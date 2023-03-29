@@ -20,7 +20,7 @@ public interface ProductService {
 
     void deleteProductById(Long id);
 
-    List<Product> findAllByCostBetween(int min, int max );
+    //List<Product> findAllByCostBetween(int min, int max );
 
     Product update (ProductDto productDto);
 

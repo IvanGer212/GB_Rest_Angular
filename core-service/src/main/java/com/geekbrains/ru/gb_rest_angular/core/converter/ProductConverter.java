@@ -14,7 +14,7 @@ public class ProductConverter {
 
 
     public Product dtoToEntity (ProductDto productDto){
-        return new Product(productDto.getId(), productDto.getTitle(), productDto.getCost(), categoryService.findCategoryById(productDto.getCategory()).get());//categoryService.findCategoryByName(productDto.getCategory()).get());
+        return new Product(productDto.getId(), productDto.getTitle(), productDto.getCost(), categoryService.findCategoryByName(productDto.getCategory()).get());
     }
 
     public ProductDto entityToDto (Product product){
@@ -22,7 +22,7 @@ public class ProductConverter {
         productDto.setId(product.getId());
         productDto.setCost(product.getCost());
         productDto.setTitle(product.getTitle());
-        productDto.setCategory(product.getCategory().getId());
+        productDto.setCategory(categoryService.findCategoryById(product.getCategory().getId()).get().getTitle());
         return productDto;
     }
 }

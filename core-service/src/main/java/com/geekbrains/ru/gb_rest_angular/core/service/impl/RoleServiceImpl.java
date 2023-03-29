@@ -1,5 +1,6 @@
 package com.geekbrains.ru.gb_rest_angular.core.service.impl;
 
+import com.geekbrains.ru.gb_rest_angular.api.ResourceNotFoundException;
 import com.geekbrains.ru.gb_rest_angular.core.domain.Role;
 import com.geekbrains.ru.gb_rest_angular.core.repository.RoleRepository;
 import com.geekbrains.ru.gb_rest_angular.core.service.RoleService;
@@ -15,7 +16,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role findRoleByName(String name) {
-        return roleRepository.findByName(name);
+        return roleRepository.findByName(name).orElseThrow(() -> new ResourceNotFoundException("Не удалось найти роль "+ name));
     }
 
     @Override

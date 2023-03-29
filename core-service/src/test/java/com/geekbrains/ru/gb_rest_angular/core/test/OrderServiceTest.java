@@ -15,6 +15,7 @@ import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -51,6 +52,12 @@ public class OrderServiceTest {
         cart.setTotalPrice(BigDecimal.valueOf(120));
         cart.setProductsForBin(List.of(product));
 
+        User user = new User();
+        user.setUserName("Bob");
+        user.setSurname("Black");
+        user.setEmail("BobBlack76@mail.ru");
+        user.setPhone("+726552556");
+
         Mockito.doReturn(cart).when(cartServiceIntegration).getCurrentCart("BobBlack76@mail.ru");
 
         Product product1 = new Product();
@@ -60,13 +67,11 @@ public class OrderServiceTest {
 
         Mockito.doReturn(Optional.of(product1)).when(productService).findProductById(1457L);
 
-        User user = new User();
-        user.setUserName("Bob");
-        user.setSurname("Black");
-        user.setEmail("BobBlack76@mail.ru");
-        user.setPhone("+726552556");
+
         Order order = orderService.createOrder(user);
-        Assertions.assertEquals(order.getCost(),120);
+
+        Assertions.assertEquals(BigDecimal.valueOf(120) , order.getCost());
+        Assertions.assertEquals("BobBlack76@mail.ru", order.getUsername());
         Mockito.verify(orderRepository,Mockito.times(1)).save(ArgumentMatchers.any());
     }
 }

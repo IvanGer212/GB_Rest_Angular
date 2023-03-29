@@ -12,7 +12,8 @@ angular.module('market').controller('registryController',function ($scope, $http
                 method: 'POST',
                 data: $scope.User
             }).then(function (response) {
-                alert('Вы успешно зарегистрированы!')
+                alert('Вы успешно зарегистрированы!');
+                $location.path('/');
                 //msg = 'Вы успешно зарегистрированы!';
             });
         } else {

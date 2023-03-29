@@ -48,7 +48,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="p in ProductList">
+            <tr ng-repeat="p in ProductsPage.items">
                 <td>{{p.id}}</td>
                 <td>{{p.title}}</td>
                 <td>{{p.cost}}</td>
@@ -61,10 +61,9 @@
         </table>
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-
-                <li class="page-item"><a class="page-link" ng-click="loadProducts(1)" href="http://localhost:8080/index.html?#!/admin_store">1</a></li>
-                <li class="page-item"><a class="page-link" ng-click="loadProducts(2)" href="http://localhost:8080/index.html?#!/admin_store">2</a></li>
-                <li class="page-item"><a class="page-link" ng-click="loadProducts(3)" href="http://localhost:8080/index.html?#!/admin_store">3</a></li>
+                <li class="page-item" ng-repeat="pageIndex in pagesList">
+                    <button class="page-link" ng-click="loadProducts(pageIndex)">{{pageIndex}}</button>
+                </li>
             </ul>
         </nav>
     </div>
@@ -95,7 +94,7 @@
                 <p></p>
                 <select class="form-select" ng-model="Product.category" aria-label="Default select example" >
                     <option selected>Выберите категорию</option>
-                        <option ng-repeat="c in CategoryList" value="{{c.id}}">{{c.title}}</option>
+                        <option ng-repeat="c in CategoryList" value="{{c.title}}">{{c.title}}</option>
                 </select>
                 <p></p>
                 <button type="submit" class="btn btn-primary">Добавить продукт</button>

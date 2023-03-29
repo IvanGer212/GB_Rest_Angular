@@ -16,6 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -83,17 +84,21 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(id);
     }
 
-    @Override
-    public List<Product> findAllByCostBetween(int min, int max) {
-        return productRepository.findAllByCostBetween(min, max);
-    }
+//    @Override
+//    public List<Product> findAllByCostBetween(int min, int max) {
+//        return productRepository.findAllByCostBetween(min, max);
+//    }
 
     @Override
     @Transactional
     public Product update(ProductDto productDto){
-        Product product = productRepository.findById(productDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Невозможно обновить продукт, не найден в базе, id = "+productDto.getId()));
-        product.setCost(productDto.getCost());
-        product.setTitle(productDto.getTitle());
+        Product product = new Product();
+        Optional<Product> optionalProduct = productRepository.findById(productDto.getId());
+        if (optionalProduct.isPresent()){
+            product = optionalProduct.get();
+            product.setCost(productDto.getCost());
+            product.setTitle(productDto.getTitle());
+        } else throw new ResourceNotFoundException("Невозможно обновить продукт, не найден в базе, id = "+productDto.getId());
         return product;
     }
 

@@ -8,12 +8,12 @@ public class ProductDto {
     private String title;
     private BigDecimal cost;
     //private String category;
-    private Long category;
+    private String category;
 
     public ProductDto() {
     }
 
-    public ProductDto(Long id, String title, BigDecimal cost, Long category){//String category) {
+    public ProductDto(Long id, String title, BigDecimal cost, String category){//String category) {
         this.id = id;
         this.title = title;
         this.cost = cost;
@@ -44,11 +44,11 @@ public class ProductDto {
         this.cost = cost;
     }
 
-    public Long getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Long category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 }
