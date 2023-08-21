@@ -1,0 +1,26 @@
+<div class="container text-center">
+    <p></p>
+    <h3>Регистрация</h3>
+    <p></p>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <form novalidate ng-submit="registryUser()">
+                <input class="form-control" type="text"  placeholder="Имя" required ng-model="User.userName">
+                <p></p>
+                <input class="form-control" type="text" placeholder="Фамилия" required ng-model="User.surname">
+                <p></p>
+                <input class="form-control" type="password" placeholder="Пароль" required ng-model="User.password">
+                <p></p>
+                <input class="form-control" type="password" placeholder="Повторить пароль" required ng-model="passwordRepeat">
+                <p></p>
+                <input class="form-control" type="text" placeholder="email" required ng-model="User.email">
+                <p></p>
+                <input class="form-control" type="text" placeholder="Номер телефона" required ng-model="User.phone">
+                <p></p>
+                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>

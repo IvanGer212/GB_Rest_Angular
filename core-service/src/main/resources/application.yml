@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+
+integrations:
+  cart-service:
+    url: http://localhost:8081/app/
+    read-timeout: 10000
+    write-timeout: 5000
+    connect-timeout: 5000
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 123456
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        formate-sql: true
+
+jwt:
+        secret: nckYV&%557Btjm#biYcES%buHv
+        lifetime: 3600000
+
+
+

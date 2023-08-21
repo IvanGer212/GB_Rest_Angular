@@ -1,0 +1,19 @@
+server:
+  port: 8081
+
+integrations:
+   product-service:
+      url: http://localhost:8080/app/
+      read-timeout: 10000
+      write-timeout: 5000
+      connect-timeout: 5000
+
+cart-service:
+      cart-prefix: my_market_
+
+
+
+
+
+
+
