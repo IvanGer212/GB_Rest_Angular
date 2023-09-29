@@ -37,6 +37,7 @@ angular.module('market').controller('orderController',function ($scope, $http, $
      for (let i = 0; i < totalPage; i++){
            $scope.pagesList.push(i+1);
         }
+        console.log($scope.pagesList);
     }
 
     $scope.loadOrders();

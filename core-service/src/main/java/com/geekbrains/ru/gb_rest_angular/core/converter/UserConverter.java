@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class UserConverter {
-    private final UserService userService;
     private final RoleService roleService;
+    private final RoleConverter roleConverter;
 
     public User dtoToEntity (UserDto userDto) {
     User user = new User();
@@ -48,6 +48,7 @@ public class UserConverter {
         userDto.setSurname(user.getSurname());
         userDto.setEmail(user.getEmail());
         userDto.setPhone(user.getPhone());
+        userDto.setRoles(user.getRoles().stream().map(Role::getName).collect(Collectors.toList()).stream().map(roleConverter::roleNameToName).collect(Collectors.toList()));
     return userDto;
     }
 

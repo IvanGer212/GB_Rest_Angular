@@ -1,9 +1,14 @@
 package com.geekbrains.ru.gb_rest_angular.core.service;
 
+import com.geekbrains.ru.gb_rest_angular.core.converter.UserConverter;
 import com.geekbrains.ru.gb_rest_angular.core.domain.Role;
 import com.geekbrains.ru.gb_rest_angular.core.domain.User;
+import com.geekbrains.ru.gb_rest_angular.core.dto.UserDto;
 import com.geekbrains.ru.gb_rest_angular.core.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
+    private final UserConverter userConverter;
     private final BCryptPasswordEncoder passwordEncoder;
 
     public Optional<User> findUserByUserName (String name){
@@ -43,8 +49,10 @@ public class UserService implements UserDetailsService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
-    public List<User> findAllUsers(){
-        return userRepository.findAll();
+    public Page<UserDto> findAllUsers(int page){
+        Pageable pageable = PageRequest.of(page-1, 5);
+        Page<UserDto> map = userRepository.findAll(pageable).map(u -> userConverter.entityToDto(u));
+        return map;
     }
 
     public void deleteUserById(Long id){userRepository.deleteById(id);}

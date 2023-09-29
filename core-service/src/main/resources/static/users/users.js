@@ -1,15 +1,28 @@
 angular.module('market').controller('userController',function ($scope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:8080/app/api/v1';
 
-    $scope.loadUsers = function () {
-        $http.get(contextPath + "/users").then(function (response) {
-            //console.log(response.data);
-            $scope.UserList = response.data;
+    // let savePage;
+    //
+    // $scope.savePageNum = function (page){
+    //     //console.log(savePage);
+    //     savePage = page;
+    // }
+
+    $scope.loadUsers = function (pageIndex) {
+        console.log("PageIndex = " + pageIndex);
+        $http({
+            url: contextPath + "/users",
+            method: 'GET',
+            params:{
+                p: pageIndex
+            }
+        }).then(function (response) {
+            $scope.UserPage = response.data;
+            $scope.generatePagesList(response.data.totalPages);
         })
     }
 
     $scope.deleteUser = function (userId) {
-       // console.log('delete user')
         $http.delete(contextPath + '/users/' + userId)
             .then(function (response) {
                 $scope.loadUsers();
@@ -17,7 +30,6 @@ angular.module('market').controller('userController',function ($scope, $http, $l
     }
 
     $scope.createUser = function (userName, surname, password, email, phone, roles) {
-      //  console.log($scope.User);
         $http({
             url: contextPath + "/users",
             method: 'POST',
@@ -27,13 +39,12 @@ angular.module('market').controller('userController',function ($scope, $http, $l
         });
     }
 
-    // $scope.loadRoles = function (){
-    //     $http.get('http://localhost:8080/app/api/v1/users/roles')
-    //         .then(function (response){
-    //             $scope.Roles = response.data.content;
-    //         });
-    // };
+    $scope.generatePagesList = function (totalPage){
+        $scope.pagesList = [];
+        for (let i = 0; i < totalPage; i++){
+            $scope.pagesList.push(i+1);
+        }
+    }
 
-    //$scope.loadRoles();
     $scope.loadUsers();
 })

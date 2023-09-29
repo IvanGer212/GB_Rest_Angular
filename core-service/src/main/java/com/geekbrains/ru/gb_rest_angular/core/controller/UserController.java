@@ -3,12 +3,14 @@ package com.geekbrains.ru.gb_rest_angular.core.controller;
 import com.geekbrains.ru.gb_rest_angular.core.converter.UserConverter;
 import com.geekbrains.ru.gb_rest_angular.core.domain.Role;
 import com.geekbrains.ru.gb_rest_angular.core.domain.User;
+import com.geekbrains.ru.gb_rest_angular.core.dto.PageDto;
 import com.geekbrains.ru.gb_rest_angular.core.dto.UserDto;
 import com.geekbrains.ru.gb_rest_angular.core.dto.UserDtoRegistr;
 import com.geekbrains.ru.gb_rest_angular.core.service.RoleService;
 import com.geekbrains.ru.gb_rest_angular.core.service.UserService;
 import com.geekbrains.ru.gb_rest_angular.core.validators.UserValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,9 +27,16 @@ public class UserController {
     private final UserValidator userValidator;
 
     @GetMapping
-    public List<UserDto> getUsers () {
-        List<UserDto> userDtoList = userService.findAllUsers().stream().map(u->userConverter.entityToDto(u)).collect(Collectors.toList());
-        return userDtoList;
+    public PageDto<UserDto> getUsers (@RequestParam (name="p", defaultValue = "1") Integer page) {
+        if (page<1){
+            page=1;
+        }
+        PageDto<UserDto> out = new PageDto<>();
+        Page<UserDto> map = userService.findAllUsers(page);
+        out.setPage(map.getNumber());
+        out.setItems(map.getContent());
+        out.setTotalPages(map.getTotalPages());
+        return out;
     }
 
     @GetMapping("/roles")
@@ -43,7 +52,7 @@ public class UserController {
 //    }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Long id) {
+    public void deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
     }
 
