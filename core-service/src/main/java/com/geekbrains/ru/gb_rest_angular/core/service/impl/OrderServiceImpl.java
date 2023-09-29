@@ -12,6 +12,10 @@ import com.geekbrains.ru.gb_rest_angular.core.service.OrderService;
 import com.geekbrains.ru.gb_rest_angular.core.service.ProductService;
 import com.geekbrains.ru.gb_rest_angular.core.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -49,13 +53,24 @@ public class OrderServiceImpl implements OrderService {
      }
 
      @Override
-    public List<Order> getOrders(String username){
-        return orderRepository.findAllByUsername(username);
+    public Page<Order> getOrders(int pageNum, String username){
+        Pageable pageable = PageRequest.of(pageNum-1, 5);
+         return orderRepository.findAllByUsername(pageable, username);
+//        Page<Order> page;
+//         List<Order> allByUsername = orderRepository.findAllByUsername(username);
+//         page = new PageImpl<Order>(allByUsername,pageable, allByUsername.size());
+        //return page;
      }
 
      @Override
      public List<OrderItemDto> findItemsByOrderId (Long orderId){
          return orderItemsService.findAllItemsByOrderId(orderId).stream().map(orderItemConverter::entityToDto).collect(Collectors.toList());
+     }
+
+     @Override
+    public Page<Order> getAllOrders(int pageNum){
+         Pageable pageable = PageRequest.of(pageNum-1,5);
+         return orderRepository.findAll(pageable);
      }
 
 }

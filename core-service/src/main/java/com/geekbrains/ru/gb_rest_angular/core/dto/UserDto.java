@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Objects;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -29,4 +31,16 @@ public class UserDto {
         this.roles = roles;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDto userDto = (UserDto) o;
+        return Objects.equals(id, userDto.id) && Objects.equals(userName, userDto.userName) && Objects.equals(surname, userDto.surname) && Objects.equals(password, userDto.password) && Objects.equals(email, userDto.email) && Objects.equals(phone, userDto.phone) && Objects.equals(roles, userDto.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userName, surname, password, email, phone, roles);
+    }
 }

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,8 +27,9 @@ public class CategoryController {
     @GetMapping("/{id}")
     public CategoryDto getCategoryById(@PathVariable Long id){
         Category category;
-        if (categoryService.findCategoryById(id).isPresent()) {
-             category = categoryService.findCategoryById(id).get();//TODO add categoryConverter
+        Optional<Category> categoryById = categoryService.findCategoryById(id);
+        if (categoryById.isPresent()) {
+             category = categoryById.get();
         }
         else category = new Category();
         return categoryConverter.entityToDto(category);
@@ -36,8 +38,9 @@ public class CategoryController {
     @GetMapping("/find")
     public CategoryDto getCategoryByName(@RequestParam(name = "categoryName") String categoryName){
         Category category;
-        if (categoryService.findCategoryByName(categoryName).isPresent()){
-            category = categoryService.findCategoryByName(categoryName).get();
+        Optional<Category> categoryByName = categoryService.findCategoryByName(categoryName);
+        if (categoryByName.isPresent()){
+            category = categoryByName.get();
         }
         else category = new Category();
         return categoryConverter.entityToDto(category);
