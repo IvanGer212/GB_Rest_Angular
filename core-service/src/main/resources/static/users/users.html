@@ -1,0 +1,72 @@
+<div class="container text-center">
+    <p></p>
+    <h3>Пользователи</h3>
+    <p></p>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">email</th>
+            <th scope="col">Номер телефона</th>
+            <th scope="col">Роли</th>
+            <th scope="col">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="u in UserPage.items">
+            <td>{{u.id}}</td>
+            <td>{{u.userName}}</td>
+            <td>{{u.surname}}</td>
+            <td>{{u.email}}</td>
+            <td>{{u.phone}}</td>
+            <td>{{u.roles}}</td>
+            <td>
+                <button class="btn btn-danger" ng-click="deleteUser(u.id)">Удалить</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item" ng-repeat="pageIndex in pagesList">
+                <button class="page-link" ng-click="loadUsers(pageIndex)">{{pageIndex}}</button>
+            </li>
+            <!--           <li class="page-item"><a class="page-link" ng-click="loadProducts(1)" href="#">1</a></li>-->
+            <!--           <li class="page-item"><a class="page-link" ng-click="loadProducts(2)" href="#">2</a></li>-->
+            <!--           <li class="page-item"><a class="page-link" ng-click="loadProducts(3)" href="#">3</a></li>-->
+        </ul>
+    </nav>
+    <p></p>
+
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-6">
+            <h3>Добавить пользователя</h3>
+            <form novalidate ng-submit="createUser()">
+                <input class="form-control" type="text"  placeholder="Имя" required ng-model="User.userName">
+                <p></p>
+                <input class="form-control" type="text" placeholder="Фамилия" required ng-model="User.surname">
+                <p></p>
+                <input class="form-control" type="password" placeholder="Пароль" required ng-model="User.password">
+                <p></p>
+                <input class="form-control" type="text" placeholder="email" required ng-model="User.email">
+                <p></p>
+                <input class="form-control" type="text" placeholder="Номер телефона" required ng-model="User.phone">
+                <p></p>
+                <select class="form-select" aria-label="уровень доступа" ng-model="User.roles">
+                    <option selected>Выберете уровень доступа</option>
+                    <!--            <option ng-value="option.value" ng-repeat=" r in Roles">-->
+                    <!--                {{r}}-->
+                    <!--            </option>-->
+                    <option value="user">user</option>
+                    <option value="admin">admin</option>
+                </select>
+                <p></p>
+                <button type="submit" class="btn btn-primary">Добавить пользователя</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
