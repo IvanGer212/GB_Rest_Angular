@@ -33,4 +33,13 @@ public class PageDto<E> {
     public void setPage(int page) {
         this.page = page;
     }
+
+    @Override
+    public String toString() {
+        return "PageDto{" +
+                "items=" + items +
+                ", page=" + page +
+                ", totalPages=" + totalPages +
+                '}';
+    }
 }

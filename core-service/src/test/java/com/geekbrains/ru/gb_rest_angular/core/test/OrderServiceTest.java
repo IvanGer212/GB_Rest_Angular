@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,11 +68,11 @@ public class OrderServiceTest {
 
         Mockito.doReturn(Optional.of(product1)).when(productService).findProductById(1457L);
 
-
         Order order = orderService.createOrder(user);
 
         Assertions.assertEquals(BigDecimal.valueOf(120) , order.getCost());
         Assertions.assertEquals("BobBlack76@mail.ru", order.getUsername());
         Mockito.verify(orderRepository,Mockito.times(1)).save(ArgumentMatchers.any());
+        Mockito.verify(cartServiceIntegration, Mockito.times(1)).clear(user.getEmail());
     }
 }

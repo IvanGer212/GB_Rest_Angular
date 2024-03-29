@@ -23,7 +23,7 @@ public class AppConfig {
 
     @Bean
     public WebClient cartServiceWebClient(){
-        TcpClient tcpClient = TcpClient
+        HttpClient httpClient = HttpClient
                 .create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, properties.getConnectTimeout())
                 .doOnConnected(connection -> {
@@ -34,7 +34,7 @@ public class AppConfig {
         return WebClient
                 .builder()
                 .baseUrl(properties.getUrl())
-                .clientConnector(new ReactorClientHttpConnector(HttpClient.from(tcpClient)))
+                .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }
 //    @Bean

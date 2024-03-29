@@ -10,12 +10,15 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
+import static org.mockito.Mockito.times;
 
 @SpringBootTest
 public class UserServiceTest {
@@ -60,8 +63,36 @@ public class UserServiceTest {
 
         User user1 = userService.addNewUser(user2);
 
+        Assertions.assertNotNull(user1);
         Assertions.assertEquals(user2.getUserName(),user1.getUserName());
         Assertions.assertEquals(user2.getPhone(), user1.getPhone());
         Assertions.assertEquals(user.getId(), user1.getId());
+        Mockito.verify(userRepository, times(1)).save(user);
+    }
+
+    @Test
+    public void loadUserByUsernameTest() {
+        Role role = new Role("ROLE_ADMIN");
+        List<Role> roles = new ArrayList<>();
+        roles.add(role);
+
+        User user = new User();
+        user.setId(678L);
+        user.setUserName("Boris");
+        user.setSurname("Johnson");
+        user.setPhone("+8881234567");
+        user.setPassword("456");
+        user.setEmail("JohnsonBS83@mail.ru");
+        user.setRoles(roles);
+
+        Mockito.doReturn(Optional.of(user)).when(userRepository).findUserByEmail("JohnsonBS83@mail.ru");
+
+        UserDetails userDetails = userService.loadUserByUsername("JohnsonBS83@mail.ru");
+
+        Assertions.assertNotNull(userDetails);
+        Assertions.assertEquals(user.getEmail(), userDetails.getUsername());
+        Assertions.assertEquals(user.getPassword(), userDetails.getPassword());
+        Assertions.assertEquals(1, userDetails.getAuthorities().size());
+        Assertions.assertTrue(userDetails.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN")));
     }
 }

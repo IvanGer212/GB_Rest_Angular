@@ -3,6 +3,7 @@ package com.geekbrains.ru.gb_rest_angular.core.service.impl;
 
 import com.geekbrains.ru.gb_rest_angular.api.ProductDto;
 import com.geekbrains.ru.gb_rest_angular.api.ResourceNotFoundException;
+import com.geekbrains.ru.gb_rest_angular.core.domain.Category;
 import com.geekbrains.ru.gb_rest_angular.core.domain.Product;
 import com.geekbrains.ru.gb_rest_angular.core.repository.ProductRepository;
 import com.geekbrains.ru.gb_rest_angular.core.repository.specifications.ProductSpecification;
@@ -25,9 +26,11 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private ProductRepository productRepository;
+    private CategoryServiceImpl categoryService;
 
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, CategoryServiceImpl categoryService) {
         this.productRepository = productRepository;
+        this.categoryService = categoryService;
     }
 
     @Override
@@ -44,16 +47,22 @@ public class ProductServiceImpl implements ProductService {
             spec = spec.and(ProductSpecification.titleLike(title));
         }
 
-        if (categoryId != null){
-            List<Product> all = productRepository.findAll(spec);
+        if (categoryId != null) {
+            Category category = categoryService.findCategoryById(categoryId).get();
+            spec = spec.and(ProductSpecification.categoryEqual(category));
 
-            List<Product> collect = all.stream().filter(product -> product.getCategory().getId().equals(categoryId)).collect(Collectors.toList());
 
-            page1 = new PageImpl<Product>(collect, PageRequest.of(page-1,5), all.size());
+
+//        if (categoryId != null){
+//            List<Product> all = productRepository.findAll(spec);
+//
+//            List<Product> collect = all.stream().filter(product -> product.getCategory().getId().equals(categoryId)).collect(Collectors.toList());
+//
+//            page1 = new PageImpl<Product>(collect, PageRequest.of(page-1,5), all.size());
 
         }
-            else {page1 = productRepository.findAll(spec, PageRequest.of(page-1, 5));}
-        return page1; //productRepository.findAll(spec, PageRequest.of(page-1, 5));
+           // else {page1 = productRepository.findAll(spec, PageRequest.of(page-1, 5));}
+        return  productRepository.findAll(spec, PageRequest.of(page-1, 5)); //page1; //productRepository.findAll(spec, PageRequest.of(page-1, 5));
     }
     @Override
     public List<Product> getAllProduct() {
@@ -84,10 +93,6 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(id);
     }
 
-//    @Override
-//    public List<Product> findAllByCostBetween(int min, int max) {
-//        return productRepository.findAllByCostBetween(min, max);
-//    }
 
     @Override
     @Transactional

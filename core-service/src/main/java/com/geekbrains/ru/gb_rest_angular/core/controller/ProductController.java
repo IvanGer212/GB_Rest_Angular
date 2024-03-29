@@ -49,7 +49,9 @@ public class ProductController {
     @ResponseBody
     public ProductDto getProductById(@PathVariable Long id){
         Product product = productService.findProductById(id).orElseThrow(()-> new ResourceNotFoundException("Product not found! id= "+id));
+        System.out.println(product);
         ProductDto dto = productConverter.entityToDto(product);
+        System.out.println(dto.toString());
         return dto;
     }
 
@@ -68,7 +70,7 @@ public class ProductController {
     }
 
     @PutMapping
-    public ProductDto updateProduct(@RequestParam ProductDto productDto){
+    public ProductDto updateProduct(@RequestBody ProductDto productDto){
         productValidator.validate(productDto);
         Product product = productService.update(productDto);
         return productConverter.entityToDto(product);

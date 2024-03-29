@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.mockito.Mockito.when;
+
 @SpringBootTest
 public class ProductServiceTest {
 
@@ -39,17 +41,18 @@ public class ProductServiceTest {
     @Test
     public void getAllProductTest(){
         List<Product> products = new ArrayList<>();
-        products.add(new Product(69L,"Milk", BigDecimal.valueOf(60), new Category()));
-        products.add(new Product(86L,"Chocolate", BigDecimal.valueOf(120), new Category()));
-        products.add(new Product(752L,"Apple",BigDecimal.valueOf(87),new Category()));
+        Category category = new Category();
+        products.add(new Product(69L,"Milk", BigDecimal.valueOf(60), category));
+        products.add(new Product(86L,"Chocolate", BigDecimal.valueOf(120), category));
+        products.add(new Product(752L,"Apple",BigDecimal.valueOf(87), category));
 
         Mockito.doReturn(products).when(productRepository).findAll();
 
         List<Product> productList = productService.getAllProduct();
 
         Assertions.assertEquals(productList.size(),3);
-        Assertions.assertTrue(productList.contains(new Product(752L,"Apple",BigDecimal.valueOf(87),new Category())));
-        Assertions.assertEquals(productList.stream().filter(p->p.getId().equals(69L)).findFirst(), Optional.of(new Product(69L,"Milk",BigDecimal.valueOf(60),new Category())));
+        Assertions.assertTrue(productList.contains(new Product(752L,"Apple",BigDecimal.valueOf(87),category)));
+        Assertions.assertEquals(productList.stream().filter(p->p.getId().equals(69L)).findFirst(), Optional.of(new Product(69L,"Milk",BigDecimal.valueOf(60),category)));
         Assertions.assertArrayEquals(productList.toArray(),products.toArray());
 
         Mockito.verify(productRepository,Mockito.times(1)).findAll();
@@ -61,6 +64,7 @@ public class ProductServiceTest {
 
         Mockito.doReturn(Optional.of(product)).when(productRepository).findById(1683L);
         Mockito.doThrow(new ResourceNotFoundException("Product not found")).when(productRepository).findById(1258L);
+
         Assertions.assertEquals(new Product(1683L,"Cheese",BigDecimal.valueOf(650), new Category()),productService.findProductById(1683L).get());
         Assertions.assertThrows(ResourceNotFoundException.class, ()-> productService.findProductById(1258L));
     }
@@ -116,8 +120,6 @@ public class ProductServiceTest {
 
         Mockito.doReturn(products).when(productRepository).findAll(spec);
         Mockito.doReturn(page1).when(productRepository).findAll(spec,PageRequest.of(0,5));
-
-
 
         Assertions.assertEquals(products, productRepository.findAll(spec));
         Assertions.assertEquals(page, productService.find(null,null, null,1, 1L));
